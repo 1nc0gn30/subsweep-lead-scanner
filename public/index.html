@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SubSweep | Google Recon & Lead Studio</title>
+  <meta name="description" content="SubSweep Recon Studio - Professional OSINT Reconnaissance, Port Scanner, Tech Stack Fingerprinter, Business Lead Harvester, and MCP AI Agent Hub.">
+  <meta name="theme-color" content="#1a73e8">
+  <style>
+    /* Google Material 3 Design Tokens & Typography */
+    :root {
+      --md-sys-color-primary: #1a73e8;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-primary-container: #d2e3fc;
+      --md-sys-color-on-primary-container: #0d47a1;
+      
+      --md-sys-color-surface: #ffffff;
+      --md-sys-color-surface-dim: #f8f9fa;
+      --md-sys-color-surface-container-lowest: #ffffff;
+      --md-sys-color-surface-container-low: #f8f9fa;
+      --md-sys-color-surface-container: #f1f3f4;
+      --md-sys-color-surface-container-high: #e8eaed;
+      --md-sys-color-surface-container-highest: #dadce0;
+      
+      --md-sys-color-on-surface: #202124;
+      --md-sys-color-on-surface-variant: #5f6368;
+      --md-sys-color-outline: #dadce0;
+      --md-sys-color-outline-variant: #e8eaed;
+      
+      --google-blue: #1a73e8;
+      --google-blue-container: #e8f0fe;
+      --google-red: #d93025;
+      --google-red-container: #fce8e6;
+      --google-yellow: #f9ab00;
+      --google-yellow-dark: #b06000;
+      --google-yellow-container: #fef7e0;
+      --google-green: #1e8e3e;
+      --google-green-container: #e6f4ea;
+      --google-purple: #9334e6;
+      --google-purple-container: #f3e8fd;
+      
+      --md-shape-corner-xs: 4px;
+      --md-shape-corner-sm: 8px;
+      --md-shape-corner-md: 12px;
+      --md-shape-corner-lg: 16px;
+      --md-shape-corner-xl: 28px;
+      --md-shape-corner-full: 9999px;
+      
+      --md-elevation-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      --md-elevation-2: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+      --md-elevation-3: 0 4px 8px 3px rgba(60,64,67,0.15), 0 1px 3px 0 rgba(60,64,67,0.3);
+      --md-elevation-hover: 0 2px 6px 2px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
+
+      --font-family-sans: "Google Sans", Roboto, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --font-family-mono: "Roboto Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family-sans);
+      background-color: var(--md-sys-color-surface-dim);
+      color: var(--md-sys-color-on-surface);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Google-Style App Bar */
+    header.app-bar {
+      background-color: var(--md-sys-color-surface);
+      border-bottom: 1px solid var(--md-sys-color-outline);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.06);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .google-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dot-blue { background-color: var(--google-blue); }
+    .dot-red { background-color: var(--google-red); }
+    .dot-yellow { background-color: var(--google-yellow); }
+    .dot-green { background-color: var(--google-green); }
+
+    .brand:hover .dot {
+      transform: scale(1.25);
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title span.badge-pro {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      background-color: var(--google-blue-container);
+      color: var(--google-blue);
+      padding: 2px 8px;
+      border-radius: var(--md-shape-corner-full);
+      letter-spacing: 0.5px;
+    }
+
+    /* Target Domain Input Bar */
+    .search-section {
+      flex: 1;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .search-box-wrapper {
+      display: flex;
+      align-items: center;
+      background-color: var(--md-sys-color-surface-container);
+      border-radius: var(--md-shape-corner-full);
+      padding: 4px 6px 4px 18px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .search-box-wrapper:focus-within {
+      background-color: var(--md-sys-color-surface);
+      border-color: var(--google-blue);
+      box-shadow: 0 1px 6px rgba(26,115,232,0.28);
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--md-sys-color-on-surface);
+      outline: none;
+      padding: 8px 4px;
+    }
+
+    .btn-scan {
+      background-color: var(--google-blue);
+      color: #ffffff;
+      border: none;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      border-radius: var(--md-shape-corner-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-scan:hover {
+      background-color: #174ea6;
+      box-shadow: 0 1px 3px 1px rgba(60,64,67,0.25);
+    }
+
+    .btn-scan:active {
+      background-color: #154699;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .demo-select {
+      background-color: var(--md-sys-color-surface-container-low);
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-shape-corner-sm);
+      padding: 7px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--md-sys-color-on-surface);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .demo-select:hover {
+      background-color: var(--md-sys-color-surface-container);
+    }
+
+    /* Main Container */
+    main.main-content {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      flex: 1;
+    }
+
+    /* Live Progress Bar Banner (Hidden by default) */
+    .scan-progress-banner {
+      display: none;
+      background-color: var(--google-blue-container);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--md-shape-corner-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--google-blue);
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-track {
+      height: 6px;
+      background-color: #c2dbfe;
+      border-radius: var(--md-shape-corner-full);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--google-blue);
+      border-radius: var(--md-shape-corner-full);
+      transition: width 0.3s ease;
+    }
+
+    .progress-step-text {
+      font-size: 12px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-top: 6px;
+    }
+
+    /* Executive KPI & Grade Dial Hero */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background-color: var(--md-sys-color-surface);
+      border-radius: var(--md-shape-corner-lg);
+      border: 1px solid var(--md-sys-color-outline);
+      padding: 20px;
+      box-shadow: var(--md-elevation-1);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--md-elevation-hover);
+    }
+
+    .dial-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .dial-container {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 10px 0;
+    }
+
+    .dial-svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .dial-bg {
+      fill: none;
+      stroke: var(--md-sys-color-surface-container-high);
+      stroke-width: 12;
+    }
+
+    .dial-meter {
+      fill: none;
+      stroke: var(--google-green);
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 44; /* 90% */
+      transition: stroke-dashoffset 1s ease, stroke 0.5s ease;
+    }
+
+    .dial-center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dial-score {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface);
+      line-height: 1;
+    }
+
+    .dial-grade {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: var(--md-shape-corner-full);
+      background-color: var(--google-green-container);
+      color: var(--google-green);
+      margin-top: 4px;
+    }
+
+    .dial-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-top: 6px;
+    }
+
+    /* KPI Cards Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background-color: var(--md-sys-color-surface);
+      border-radius: var(--md-shape-corner-md);
+      border: 1px solid var(--md-sys-color-outline);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .kpi-icon-pill {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--md-shape-corner-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .kpi-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface);
+      margin: 10px 0 4px 0;
+    }
+
+    .kpi-footer {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .text-green { color: var(--google-green); }
+    .text-blue { color: var(--google-blue); }
+    .text-yellow { color: var(--google-yellow-dark); }
+    .text-red { color: var(--google-red); }
+    .text-purple { color: var(--google-purple); }
+
+    .bg-blue-container { background-color: var(--google-blue-container); color: var(--google-blue); }
+    .bg-green-container { background-color: var(--google-green-container); color: var(--google-green); }
+    .bg-yellow-container { background-color: var(--google-yellow-container); color: var(--google-yellow-dark); }
+    .bg-red-container { background-color: var(--google-red-container); color: var(--google-red); }
+    .bg-purple-container { background-color: var(--google-purple-container); color: var(--google-purple); }
+
+    /* Material 3 Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--md-sys-color-outline);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 12px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface-variant);
+      border-radius: var(--md-shape-corner-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .tab-btn:hover {
+      background-color: var(--md-sys-color-surface-container);
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .tab-btn.active {
+      background-color: var(--google-blue-container);
+      color: var(--google-blue);
+      font-weight: 600;
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 20%;
+      right: 20%;
+      height: 3px;
+      background-color: var(--google-blue);
+      border-radius: var(--md-shape-corner-full);
+    }
+
+    /* Tab Content Areas */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tables in Material 3 Style */
+    .table-container {
+      overflow-x: auto;
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-shape-corner-lg);
+    }
+
+    table.m3-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    table.m3-table th {
+      background-color: var(--md-sys-color-surface-container-low);
+      padding: 14px 18px;
+      font-weight: 600;
+      color: var(--md-sys-color-on-surface-variant);
+      border-bottom: 1px solid var(--md-sys-color-outline);
+      white-space: nowrap;
+    }
+
+    table.m3-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-on-surface);
+      vertical-align: middle;
+    }
+
+    table.m3-table tbody tr:hover {
+      background-color: #f8fbff;
+    }
+
+    table.m3-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Badges & Chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: var(--md-shape-corner-full);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .chip-green { background-color: var(--google-green-container); color: var(--google-green); }
+    .chip-blue { background-color: var(--google-blue-container); color: var(--google-blue); }
+    .chip-yellow { background-color: var(--google-yellow-container); color: var(--google-yellow-dark); }
+    .chip-red { background-color: var(--google-red-container); color: var(--google-red); }
+    .chip-purple { background-color: var(--google-purple-container); color: var(--google-purple); }
+    .chip-gray { background-color: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface-variant); }
+
+    .chip-outline {
+      border: 1px solid var(--md-sys-color-outline);
+      background-color: transparent;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    /* Filter Toolbar */
+    .filter-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chips-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-filter-chip {
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      color: var(--md-sys-color-on-surface-variant);
+      padding: 6px 14px;
+      border-radius: var(--md-shape-corner-full);
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-filter-chip:hover {
+      background-color: var(--md-sys-color-surface-container);
+    }
+
+    .btn-filter-chip.active {
+      background-color: var(--google-blue-container);
+      border-color: var(--google-blue);
+      color: var(--google-blue);
+      font-weight: 500;
+    }
+
+    .btn-action-sm {
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      padding: 6px 14px;
+      border-radius: var(--md-shape-corner-full);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-sm:hover {
+      background-color: var(--md-sys-color-surface-container);
+      border-color: #b0b3b8;
+    }
+
+    .btn-action-primary {
+      background-color: var(--google-blue);
+      border-color: var(--google-blue);
+      color: #ffffff;
+    }
+
+    .btn-action-primary:hover {
+      background-color: #174ea6;
+      color: #ffffff;
+    }
+
+    /* Subdomain Tree Visualization */
+    .tree-view-wrapper {
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-shape-corner-lg);
+      padding: 24px;
+      min-height: 380px;
+    }
+
+    .tree-root-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--google-blue);
+      color: #ffffff;
+      padding: 8px 18px;
+      border-radius: var(--md-shape-corner-full);
+      font-weight: 600;
+      font-size: 15px;
+      box-shadow: 0 2px 4px rgba(26,115,232,0.3);
+      margin-bottom: 24px;
+    }
+
+    .tree-branches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .tree-group-box {
+      background-color: var(--md-sys-color-surface-container-low);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-shape-corner-md);
+      padding: 16px;
+    }
+
+    .tree-group-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tree-leaf-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-shape-corner-sm);
+      margin-bottom: 8px;
+      font-size: 13px;
+      transition: border-color 0.15s ease;
+    }
+
+    .tree-leaf-item:hover {
+      border-color: var(--google-blue);
+    }
+
+    .tree-leaf-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Technology Profiler Cards */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .tech-card {
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-shape-corner-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tech-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tech-name {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .confidence-meter-bar {
+      height: 4px;
+      background-color: var(--md-sys-color-surface-container-high);
+      border-radius: var(--md-shape-corner-full);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .confidence-meter-fill {
+      height: 100%;
+      background-color: var(--google-blue);
+      border-radius: var(--md-shape-corner-full);
+    }
+
+    /* Port Matrix Grid */
+    .ports-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .port-box {
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-shape-corner-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .port-box:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--md-elevation-2);
+    }
+
+    .port-box.risk-high {
+      border-color: #fca5a5;
+      background-color: #fffbfa;
+    }
+
+    .port-number {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--font-family-mono);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* AI Agent & MCP Hub */
+    .mcp-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .mcp-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .code-block-wrapper {
+      background-color: #202124;
+      color: #e8eaed;
+      border-radius: var(--md-shape-corner-md);
+      overflow: hidden;
+      font-family: var(--font-family-mono);
+      font-size: 12.5px;
+      position: relative;
+    }
+
+    .code-header {
+      background-color: #2d2f31;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #9aa0a6;
+      font-size: 12px;
+      border-bottom: 1px solid #3c4043;
+    }
+
+    .code-body {
+      padding: 16px;
+      overflow-x: auto;
+      line-height: 1.6;
+      max-height: 380px;
+    }
+
+    .btn-copy-code {
+      background-color: #3c4043;
+      border: none;
+      color: #e8eaed;
+      padding: 4px 10px;
+      border-radius: var(--md-shape-corner-xs);
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-copy-code:hover {
+      background-color: #5f6368;
+    }
+
+    /* Executive Report Preview */
+    .report-preview-sheet {
+      background-color: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-shape-corner-lg);
+      padding: 32px;
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .report-title-section {
+      border-bottom: 2px solid var(--md-sys-color-outline-variant);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .report-h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    .report-meta {
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    footer.app-footer {
+      background-color: var(--md-sys-color-surface);
+      border-top: 1px solid var(--md-sys-color-outline);
+      padding: 20px 24px;
+      font-size: 13px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-top: 40px;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #202124;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: var(--md-shape-corner-sm);
+      font-size: 13.5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 9999;
+      display: none;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* SVG icon utility */
+    .svg-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-bar">
+    <div class="header-inner">
+      <a href="#" class="brand" title="SubSweep Recon Studio">
+        <div class="google-dots">
+          <div class="dot dot-blue"></div>
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <div class="brand-title">
+          SubSweep
+          <span class="badge-pro">Recon Studio M3</span>
+        </div>
+      </a>
+
+      <!-- Domain Search Input -->
+      <div class="search-section">
+        <form id="scanForm" class="search-box-wrapper" onsubmit="handleScanSubmit(event)">
+          <svg class="svg-icon" style="color: var(--md-sys-color-on-surface-variant); margin-right: 8px;" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          <input type="text" id="targetDomainInput" class="search-input" placeholder="Enter target domain (e.g. acme-cloud.io, stripe.com)" value="acme-cloud.io" required autocomplete="off">
+          <button type="submit" class="btn-scan" id="scanBtn">
+            <span>Run Recon</span>
+            <svg class="svg-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24">
+              <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Quick Preset Selector & Actions -->
+      <div class="header-actions">
+        <select id="presetSelect" class="demo-select" onchange="loadPresetDomain(this.value)">
+          <option value="acme-cloud.io">Preset: Acme Cloud Enterprise</option>
+          <option value="stripe-checkout-demo.net">Preset: Stripe Checkout Platform</option>
+          <option value="cyber-defense-labs.com">Preset: Cyber Defense Labs</option>
+          <option value="green-energy-tech.org">Preset: Green Energy Grid</option>
+        </select>
+        <button class="btn-action-sm btn-action-primary" onclick="exportExecutiveBundle()" title="Download full intel bundle">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Export
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Content -->
+  <main class="main-content">
+
+    <!-- Active Scan Animated Banner -->
+    <div id="scanProgressBanner" class="scan-progress-banner">
+      <div class="progress-header">
+        <span id="progressTitle">🔍 Executing OSINT Recon & Lead Harvest on acme-cloud.io...</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div id="progressBarFill" class="progress-bar-fill"></div>
+      </div>
+      <div id="progressStepText" class="progress-step-text">Initializing Certificate Transparency & Passive DNS query...</div>
+    </div>
+
+    <!-- Executive KPI & Grade Dial Hero -->
+    <div class="overview-grid">
+      
+      <!-- Recon Grade & Lead Score Dial -->
+      <div class="card dial-card">
+        <div class="dial-container">
+          <svg class="dial-svg" viewBox="0 0 160 160">
+            <circle class="dial-bg" cx="80" cy="80" r="68"></circle>
+            <circle id="scoreDialCircle" class="dial-meter" cx="80" cy="80" r="68"></circle>
+          </svg>
+          <div class="dial-center-text">
+            <div id="overallScoreVal" class="dial-score">92</div>
+            <div id="overallGradeBadge" class="dial-grade">Grade A+</div>
+          </div>
+        </div>
+        <div class="dial-label">Composite Recon & Lead Quality Rating</div>
+        <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;" id="targetDomainDisplay">
+          Target: <strong>acme-cloud.io</strong>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span>Discovered Subdomains</span>
+            <div class="kpi-icon-pill bg-blue-container">🌐</div>
+          </div>
+          <div id="kpiSubdomainCount" class="kpi-val">18</div>
+          <div class="kpi-footer text-green">
+            <span>● 16 Live HTTP/S</span>
+            <span style="color: var(--md-sys-color-on-surface-variant); margin-left: auto;">2 CNAME Edges</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span>Verified Decision Leads</span>
+            <div class="kpi-icon-pill bg-green-container">🏢</div>
+          </div>
+          <div id="kpiLeadCount" class="kpi-val">14</div>
+          <div class="kpi-footer text-green">
+            <span>● 100% MX Verified</span>
+            <span style="color: var(--md-sys-color-on-surface-variant); margin-left: auto;">6 C-Level</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span>Attack Surface Index</span>
+            <div class="kpi-icon-pill bg-yellow-container">🔌</div>
+          </div>
+          <div id="kpiPortCount" class="kpi-val">6 Open</div>
+          <div class="kpi-footer text-yellow">
+            <span>▲ 1 High Risk Exposed</span>
+            <span style="color: var(--md-sys-color-on-surface-variant); margin-left: auto;">Port 3306</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span>Tech Stack Modernity</span>
+            <div class="kpi-icon-pill bg-purple-container">🔬</div>
+          </div>
+          <div id="kpiTechCount" class="kpi-val">96%</div>
+          <div class="kpi-footer text-purple">
+            <span>React • Next.js • Cloudflare</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-subdomains', this)">
+        <span>🌐 Subdomains</span>
+        <span class="chip chip-blue" id="tabCountSubdomains">18</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-leads', this)">
+        <span>🏢 Business Leads</span>
+        <span class="chip chip-green" id="tabCountLeads">14</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-tech', this)">
+        <span>🔬 Tech Profiler</span>
+        <span class="chip chip-purple" id="tabCountTech">11</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-ports', this)">
+        <span>🔌 Port Matrix</span>
+        <span class="chip chip-yellow" id="tabCountPorts">6</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-mcp', this)">
+        <span>🤖 AI Agents & MCP</span>
+        <span class="chip chip-outline">Ready</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-report', this)">
+        <span>📊 Executive Report</span>
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-guide', this)">
+        <span>📖 OSINT Guide & CLI</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: Subdomains Recon -->
+    <div id="tab-subdomains" class="tab-content active">
+      <div class="filter-toolbar">
+        <div class="filter-chips-group">
+          <button class="btn-filter-chip active" onclick="filterSubdomains('all', this)">All (18)</button>
+          <button class="btn-filter-chip" onclick="filterSubdomains('200', this)">HTTP 200 OK (14)</button>
+          <button class="btn-filter-chip" onclick="filterSubdomains('redirect', this)">Redirects (2)</button>
+          <button class="btn-filter-chip" onclick="filterSubdomains('auth', this)">Auth & Admin (3)</button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-action-sm" onclick="toggleSubdomainView('table')" id="btnViewTable">Table View</button>
+          <button class="btn-action-sm" onclick="toggleSubdomainView('tree')" id="btnViewTree">Visual Tree</button>
+          <button class="btn-action-sm" onclick="copySubdomainsList()">Copy All Domains</button>
+        </div>
+      </div>
+
+      <!-- Subdomain Table View -->
+      <div id="subdomainsTableView" class="table-container">
+        <table class="m3-table" id="subdomainTable">
+          <thead>
+            <tr>
+              <th>Subdomain FQDN</th>
+              <th>Resolved IP / Edge</th>
+              <th>HTTP Status</th>
+              <th>Latency</th>
+              <th>TLS Certificate</th>
+              <th>Detected Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="subdomainTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Subdomain Tree View -->
+      <div id="subdomainsTreeView" class="tree-view-wrapper" style="display: none;">
+        <div class="tree-root-node">
+          <span style="font-size: 18px;">🌐</span>
+          <span id="treeRootDomainLabel">acme-cloud.io</span>
+          <span class="chip chip-green" style="background: rgba(255,255,255,0.2); color: #fff;">Apex Domain</span>
+        </div>
+        <div class="tree-branches" id="treeBranchesContainer">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Business Leads Harvester -->
+    <div id="tab-leads" class="tab-content">
+      <div class="filter-toolbar">
+        <div class="filter-chips-group">
+          <button class="btn-filter-chip active" onclick="filterLeads('all', this)">All Leads (14)</button>
+          <button class="btn-filter-chip" onclick="filterLeads('score80', this)">Score > 80 (8)</button>
+          <button class="btn-filter-chip" onclick="filterLeads('exec', this)">C-Level / VP (6)</button>
+          <button class="btn-filter-chip" onclick="filterLeads('phone', this)">Phone Available (10)</button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-action-sm btn-action-primary" onclick="exportLeadsCSV()">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Export Leads CSV
+          </button>
+          <button class="btn-action-sm" onclick="exportLeadsJSON()">Export JSON</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="m3-table" id="leadsTable">
+          <thead>
+            <tr>
+              <th>Contact Name & Role</th>
+              <th>Verified Email</th>
+              <th>Phone Number</th>
+              <th>Social Channels</th>
+              <th>Location</th>
+              <th>Lead Score</th>
+              <th>Outreach Status</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: Tech Stack Profiler -->
+    <div id="tab-tech" class="tab-content">
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">Detected Technologies & Security Headers</h3>
+        <p style="font-size: 13px; color: var(--md-sys-color-on-surface-variant);">
+          Deep heuristic fingerprinting via HTTP response headers, meta generators, script tags, DOM footprints, and TLS configurations.
+        </p>
+      </div>
+
+      <div class="tech-grid" id="techGridContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TAB 4: Port Matrix -->
+    <div id="tab-ports" class="tab-content">
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">Network Service & TCP Port Exposure</h3>
+        <p style="font-size: 13px; color: var(--md-sys-color-on-surface-variant);">
+          Port scanning telemetry identifying exposed perimeter services, application banners, and vulnerability risk scores.
+        </p>
+      </div>
+
+      <div class="ports-grid" id="portsGridContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TAB 5: AI Agent & MCP Hub -->
+    <div id="tab-mcp" class="tab-content">
+      <div class="mcp-layout">
+        <!-- MCP Client Configuration Cards -->
+        <div>
+          <div style="margin-bottom: 16px;">
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">AI Assistant MCP Client Configs</h3>
+            <p style="font-size: 13px; color: var(--md-sys-color-on-surface-variant);">
+              Connect SubSweep as a native Model Context Protocol (MCP) server in Claude Desktop, Cursor, Cline, or Zed.
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+            <button class="btn-filter-chip active" onclick="switchMcpClientSnippet('claude', this)">Claude Desktop</button>
+            <button class="btn-filter-chip" onclick="switchMcpClientSnippet('cursor', this)">Cursor IDE</button>
+            <button class="btn-filter-chip" onclick="switchMcpClientSnippet('cline', this)">Cline Extension</button>
+            <button class="btn-filter-chip" onclick="switchMcpClientSnippet('zed', this)">Zed Editor</button>
+          </div>
+
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span id="mcpConfigFilename">claude_desktop_config.json</span>
+              <button class="btn-copy-code" onclick="copyMcpCode()">
+                <svg class="svg-icon" style="width: 12px; height: 12px;" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                Copy Config
+              </button>
+            </div>
+            <pre class="code-body" id="mcpConfigCodeText"></pre>
+          </div>
+        </div>
+
+        <!-- Interactive MCP Tool Invocation Simulator -->
+        <div>
+          <div style="margin-bottom: 16px;">
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Live MCP Tool Simulator</h3>
+            <p style="font-size: 13px; color: var(--md-sys-color-on-surface-variant);">
+              Simulate JSON-RPC 2.0 tool invocations against the SubSweep MCP Server runtime.
+            </p>
+          </div>
+
+          <div class="card" style="padding: 16px;">
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 12px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); display: block; margin-bottom: 4px;">Select MCP Tool:</label>
+              <select id="mcpToolSelect" class="demo-select" style="width: 100%;" onchange="updateMcpSimParams(this.value)">
+                <option value="recon_subdomains">subsweep.recon_subdomains</option>
+                <option value="harvest_leads">subsweep.harvest_leads</option>
+                <option value="fingerprint_tech">subsweep.fingerprint_tech</option>
+                <option value="scan_ports">subsweep.scan_ports</option>
+                <option value="generate_recon_report">subsweep.generate_recon_report</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 12px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); display: block; margin-bottom: 4px;">Tool Arguments (JSON):</label>
+              <textarea id="mcpToolArgs" style="width: 100%; height: 70px; background-color: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-shape-corner-xs); padding: 8px; font-family: var(--font-family-mono); font-size: 12px; outline: none;"></textarea>
+            </div>
+
+            <button class="btn-scan" style="width: 100%; justify-content: center; margin-bottom: 12px;" onclick="executeMcpSim()">
+              <span>Execute MCP Tool Call</span>
+            </button>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 600; color: var(--md-sys-color-on-surface-variant); display: block; margin-bottom: 4px;">JSON-RPC Response:</label>
+              <pre id="mcpSimOutput" style="background-color: #202124; color: #81c995; padding: 12px; border-radius: var(--md-shape-corner-xs); font-family: var(--font-family-mono); font-size: 11.5px; max-height: 140px; overflow: auto;">{"status": "ready", "protocol": "MCP/2024-11-05", "server": "subsweep-lead-scanner"}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: Executive Report Preview & Exporter -->
+    <div id="tab-report" class="tab-content">
+      <div class="filter-toolbar">
+        <h3 style="font-size: 16px; font-weight: 600;">Executive Reconnaissance & Lead Intelligence Report</h3>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-action-sm btn-action-primary" onclick="downloadMarkdownReport()">Download Markdown (.md)</button>
+          <button class="btn-action-sm" onclick="downloadHTMLReport()">Download HTML (.html)</button>
+          <button class="btn-action-sm" onclick="window.print()">Print Report (PDF)</button>
+        </div>
+      </div>
+
+      <div class="report-preview-sheet" id="reportPreviewContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- TAB 7: OSINT Guide & CLI Reference -->
+    <div id="tab-guide" class="tab-content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card">
+          <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span>💻 CLI Quick Reference</span>
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+            <div>
+              <div style="font-weight: 600; color: var(--google-blue);">Full Recon & Lead Generation:</div>
+              <code style="background: var(--md-sys-color-surface-container); padding: 4px 8px; border-radius: 4px; display: block; margin-top: 4px; font-family: var(--font-family-mono);">subsweep recon acme-cloud.io --leads --tech --ports --output report.json</code>
+            </div>
+            <div>
+              <div style="font-weight: 600; color: var(--google-blue);">Fast Passive DNS Enumeration:</div>
+              <code style="background: var(--md-sys-color-surface-container); padding: 4px 8px; border-radius: 4px; display: block; margin-top: 4px; font-family: var(--font-family-mono);">subsweep subdomains acme-cloud.io --passive-only --format json</code>
+            </div>
+            <div>
+              <div style="font-weight: 600; color: var(--google-blue);">Lead Harvesting & CSV Export:</div>
+              <code style="background: var(--md-sys-color-surface-container); padding: 4px 8px; border-radius: 4px; display: block; margin-top: 4px; font-family: var(--font-family-mono);">subsweep leads acme-cloud.io --min-score 75 --export leads.csv</code>
+            </div>
+            <div>
+              <div style="font-weight: 600; color: var(--google-blue);">Start Stdio MCP Server for Claude / Cursor:</div>
+              <code style="background: var(--md-sys-color-surface-container); padding: 4px 8px; border-radius: 4px; display: block; margin-top: 4px; font-family: var(--font-family-mono);">subsweep mcp --stdio</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span>⚖️ Legal & Ethical Recon Guidelines</span>
+          </h3>
+          <ul style="font-size: 13px; color: var(--md-sys-color-on-surface-variant); padding-left: 20px; line-height: 1.8;">
+            <li><strong>Passive-First Philosophy:</strong> Rely on public Certificate Transparency logs (crt.sh), DNS records, and publicly indexed metadata.</li>
+            <li><strong>Responsible Probing:</strong> Abide by target rate limits and avoid intrusive exploitation payloads.</li>
+            <li><strong>Privacy Compliant Lead Data:</strong> Only aggregate verified business contact details published for official corporate inquiries.</li>
+            <li><strong>Safe Harbor & Compliance:</strong> Always secure written authorization before running active TCP port sweeps against production enterprise hosts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="google-dots" style="transform: scale(0.8);">
+          <div class="dot dot-blue"></div>
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <span><strong>SubSweep</strong> • Material 3 Recon & Lead Intelligence Studio</span>
+      </div>
+      <div>
+        100% Offline-Ready & Privacy-Compliant • Zero External Tracking
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification element -->
+  <div id="toastNotification" class="toast">Action completed successfully</div>
+
+  <script>
+    /* Preloaded Enterprise Datasets */
+    const DATASETS = {
+      "acme-cloud.io": {
+        domain: "acme-cloud.io",
+        companyName: "Acme Cloud Technologies Inc.",
+        industry: "Cloud Infrastructure & DevOps",
+        overallScore: 92,
+        overallGrade: "Grade A+",
+        subdomainCount: 18,
+        leadCount: 14,
+        openPortCount: 6,
+        techModernity: "96%",
+        subdomains: [
+          { fqdn: "acme-cloud.io", ip: "104.21.48.112", status: 200, latency: "24ms", tls: "TLS 1.3 (Valid)", role: "Apex Web", cdn: "Cloudflare" },
+          { fqdn: "www.acme-cloud.io", ip: "104.21.48.112", status: 200, latency: "26ms", tls: "TLS 1.3 (Valid)", role: "Marketing Landing", cdn: "Cloudflare" },
+          { fqdn: "api.acme-cloud.io", ip: "35.241.12.89", status: 200, latency: "38ms", tls: "TLS 1.3 (Valid)", role: "REST / GraphQL Gateway", cdn: "GCP Cloud Armor" },
+          { fqdn: "app.acme-cloud.io", ip: "76.76.21.21", status: 200, latency: "19ms", tls: "TLS 1.3 (Valid)", role: "Core SaaS Dashboard", cdn: "Vercel Edge" },
+          { fqdn: "auth.acme-cloud.io", ip: "35.241.12.92", status: 200, latency: "42ms", tls: "TLS 1.3 (Valid)", role: "SSO & OAuth 2.0 Auth0", cdn: "Google Cloud" },
+          { fqdn: "docs.acme-cloud.io", ip: "185.199.108.153", status: 200, latency: "31ms", tls: "TLS 1.3 (Valid)", role: "Developer Hub", cdn: "GitHub Pages" },
+          { fqdn: "status.acme-cloud.io", ip: "104.16.12.3", status: 200, latency: "28ms", tls: "TLS 1.3 (Valid)", role: "Statuspage", cdn: "Cloudflare" },
+          { fqdn: "admin.acme-cloud.io", ip: "34.102.88.19", status: 403, latency: "52ms", tls: "TLS 1.3 (Valid)", role: "Internal Admin Portal", cdn: "Restricted IP" },
+          { fqdn: "dev-api.acme-cloud.io", ip: "34.102.88.24", status: 200, latency: "49ms", tls: "TLS 1.2 (Valid)", role: "Staging API Service", cdn: "Direct Compute" },
+          { fqdn: "mail.acme-cloud.io", ip: "142.251.2.26", status: 301, latency: "18ms", tls: "TLS 1.3 (Valid)", role: "Google Workspace MX", cdn: "Google Cloud" },
+          { fqdn: "cdn.acme-cloud.io", ip: "151.101.65.140", status: 200, latency: "12ms", tls: "TLS 1.3 (Valid)", role: "Static Media Assets", cdn: "Fastly CDN" },
+          { fqdn: "billing.acme-cloud.io", ip: "54.187.32.110", status: 200, latency: "65ms", tls: "TLS 1.3 (Valid)", role: "Stripe Billing Portal", cdn: "AWS CloudFront" },
+          { fqdn: "staging.acme-cloud.io", ip: "76.76.21.22", status: 401, latency: "22ms", tls: "TLS 1.3 (Valid)", role: "QA Staging Environment", cdn: "Vercel" },
+          { fqdn: "metrics.acme-cloud.io", ip: "35.241.12.98", status: 403, latency: "41ms", tls: "TLS 1.3 (Valid)", role: "Prometheus / Grafana", cdn: "Protected" },
+          { fqdn: "vpn.acme-cloud.io", ip: "198.51.100.45", status: 200, latency: "58ms", tls: "TLS 1.3 (Valid)", role: "WireGuard Access Gateway", cdn: "Edge Gateway" },
+          { fqdn: "webhook.acme-cloud.io", ip: "35.241.12.99", status: 200, latency: "34ms", tls: "TLS 1.3 (Valid)", role: "Incoming Webhook Dispatcher", cdn: "GCP Armor" },
+          { fqdn: "old.acme-cloud.io", ip: "198.51.100.12", status: 301, latency: "89ms", tls: "TLS 1.2 (Valid)", role: "Legacy Redirect Host", cdn: "Direct" },
+          { fqdn: "support.acme-cloud.io", ip: "104.16.88.9", status: 200, latency: "33ms", tls: "TLS 1.3 (Valid)", role: "Zendesk Help Desk", cdn: "Cloudflare" }
+        ],
+        leads: [
+          { name: "Sarah Chen", title: "VP of Engineering & Cloud Architecture", email: "sarah.chen@acme-cloud.io", conf: "99%", phone: "+1 (415) 890-4122", linkedin: "linkedin.com/in/sarah-chen-cloud", twitter: "@sarahchen_tech", github: "sarahc-dev", location: "San Francisco, CA", score: 98, tier: "Platinum", status: "Active Outreach" },
+          { name: "Marcus Vance", title: "Chief Information Security Officer (CISO)", email: "m.vance@acme-cloud.io", conf: "98%", phone: "+1 (415) 890-4190", linkedin: "linkedin.com/in/marcusvance-sec", twitter: "@mvance_infosec", github: "mvance-sec", location: "San Francisco, CA", score: 96, tier: "Platinum", status: "Active Outreach" },
+          { name: "Elena Rostova", title: "Head of DevOps & Platform Reliability", email: "elena.r@acme-cloud.io", conf: "96%", phone: "+1 (415) 890-4205", linkedin: "linkedin.com/in/elena-rostova-devops", twitter: "@elena_infra", github: "erostova", location: "Seattle, WA", score: 94, tier: "Platinum", status: "Queued" },
+          { name: "David Kim", title: "Director of Product Management", email: "david.kim@acme-cloud.io", conf: "95%", phone: "+1 (415) 890-4110", linkedin: "linkedin.com/in/davidkim-pm", twitter: "@davidkim_prod", github: "", location: "San Jose, CA", score: 91, tier: "Platinum", status: "Qualified" },
+          { name: "Rachel Adams", title: "Chief Executive Officer & Co-Founder", email: "rachel@acme-cloud.io", conf: "94%", phone: "+1 (415) 890-4001", linkedin: "linkedin.com/in/racheladams-ceo", twitter: "@racheladams_sf", github: "radams", location: "San Francisco, CA", score: 95, tier: "Platinum", status: "Executive Target" },
+          { name: "Alex Thorne", title: "Lead Security Operations Engineer", email: "alex.thorne@acme-cloud.io", conf: "92%", phone: "+1 (415) 890-4288", linkedin: "linkedin.com/in/alex-thorne-secops", twitter: "@athorne_ops", github: "athorne-ops", location: "Austin, TX", score: 88, tier: "Gold", status: "Engaged" },
+          { name: "Priya Patel", title: "Director of Cloud Infrastructure", email: "priya.p@acme-cloud.io", conf: "91%", phone: "+1 (415) 890-4155", linkedin: "linkedin.com/in/priya-patel-cloud", twitter: "@priyacloud", github: "priyap-dev", location: "San Francisco, CA", score: 89, tier: "Gold", status: "Queued" },
+          { name: "James Wilson", title: "Staff Site Reliability Engineer", email: "j.wilson@acme-cloud.io", conf: "90%", phone: "+1 (415) 890-4230", linkedin: "linkedin.com/in/james-wilson-sre", twitter: "@jwilson_sre", github: "jwilson-sre", location: "Boston, MA", score: 85, tier: "Gold", status: "Identified" },
+          { name: "Chloe Dupont", title: "VP of Enterprise Sales", email: "chloe.dupont@acme-cloud.io", conf: "89%", phone: "+1 (415) 890-4301", linkedin: "linkedin.com/in/chloedupont-sales", twitter: "@chloe_sales", github: "", location: "New York, NY", score: 82, tier: "Gold", status: "Partner Lead" },
+          { name: "Brian O'Connor", title: "Principal Backend Architect", email: "brian.oc@acme-cloud.io", conf: "88%", phone: "+1 (415) 890-4244", linkedin: "linkedin.com/in/brian-oconnor-arch", twitter: "@brianoc_code", github: "boconnor", location: "Denver, CO", score: 84, tier: "Gold", status: "Technical Contact" },
+          { name: "Maya Lin", title: "Senior Security Analyst", email: "maya.lin@acme-cloud.io", conf: "85%", phone: "", linkedin: "linkedin.com/in/mayalin-sec", twitter: "@mayalin_cyber", github: "mayalin-sec", location: "Chicago, IL", score: 78, tier: "Silver", status: "Identified" },
+          { name: "Thomas Sterling", title: "Procurement & IT Sourcing Manager", email: "thomas.s@acme-cloud.io", conf: "84%", phone: "+1 (415) 890-4350", linkedin: "linkedin.com/in/thomas-sterling-it", twitter: "", github: "", location: "San Francisco, CA", score: 76, tier: "Silver", status: "Identified" },
+          { name: "Jessica Taylor", title: "Growth Marketing Director", email: "jessica.t@acme-cloud.io", conf: "82%", phone: "+1 (415) 890-4180", linkedin: "linkedin.com/in/jessicataylor-growth", twitter: "@jess_growth", github: "", location: "Los Angeles, CA", score: 72, tier: "Silver", status: "Identified" },
+          { name: "General Inquiries", title: "Corporate Headquarters Contact", email: "contact@acme-cloud.io", conf: "99%", phone: "+1 (415) 890-4000", linkedin: "", twitter: "@acmecloud_io", github: "acme-cloud", location: "500 Howard St, San Francisco, CA 94105", score: 70, tier: "Silver", status: "Company Switchboard" }
+        ],
+        technologies: [
+          { name: "Next.js & React", category: "Frontend Framework", version: "14.2.5", confidence: 99, evidence: "DOM structure, __NEXT_DATA__ hydration bundle, script chunking" },
+          { name: "Cloudflare Edge", category: "CDN / WAF", version: "Enterprise", confidence: 98, evidence: "CF-RAY headers, Cloudflare DNS, SSL SNI edge certificate" },
+          { name: "Google Cloud Platform", category: "Cloud Hosting", version: "GKE / Cloud Run", confidence: 95, evidence: "Google MX records, GCP compute IP range, 35.241.0.0/16" },
+          { name: "FastAPI / Python", category: "Backend Framework", version: "0.111.0", confidence: 94, evidence: "OpenAPI /docs schema, Server response signatures" },
+          { name: "Tailwind CSS", category: "UI Styling", version: "3.4.7", confidence: 96, evidence: "Utility CSS class signatures, responsive DOM structures" },
+          { name: "PostgreSQL", category: "Database Engine", version: "16.2", confidence: 92, evidence: "Port 5432 probe response, SSL negotiation banner" },
+          { name: "Stripe Elements", category: "Payments / Billing", version: "v3 JS SDK", confidence: 99, evidence: "js.stripe.com inclusion, secure checkout iframe" },
+          { name: "Google Analytics 4", category: "Analytics & Tracking", version: "G-XXXXX", confidence: 97, evidence: "gtag.js loader, GA4 measurement stream" },
+          { name: "HSTS Strict Security", category: "Security Header", version: "max-age=31536000", confidence: 100, evidence: "Strict-Transport-Security: includeSubDomains; preload" },
+          { name: "Content Security Policy", category: "Security Header", version: "CSP Level 3", confidence: 95, evidence: "CSP header restricting script-src, frame-ancestors" },
+          { name: "Auth0 / Okta SSO", category: "Identity & Auth", version: "Universal Login", confidence: 94, evidence: "auth.acme-cloud.io CNAME delegation, OpenID Discovery" }
+        ],
+        ports: [
+          { port: 80, proto: "TCP", service: "HTTP", banner: "cloudflare / 301 Moved Permanently", risk: "Low", tls: "N/A" },
+          { port: 443, proto: "TCP", service: "HTTPS", banner: "nginx / 1.25.4 (Ubuntu)", risk: "Low", tls: "TLS 1.3 / ECDHE-RSA-AES128-GCM-SHA256" },
+          { port: 22, proto: "TCP", service: "SSH", banner: "OpenSSH 9.3p1 Debian 1ubuntu3.2", risk: "Medium", tls: "SSH-2.0" },
+          { port: 5432, proto: "TCP", service: "PostgreSQL", banner: "PostgreSQL 16.2 (Debian)", risk: "Medium", tls: "TLS Encrypted" },
+          { port: 3306, proto: "TCP", service: "MySQL", banner: "8.0.36-MySQL Community Server", risk: "High", tls: "Unencrypted Handshake Warning" },
+          { port: 8443, proto: "TCP", service: "HTTPS-Admin", banner: "Envoy Proxy / 1.29.1", risk: "Low", tls: "TLS 1.3 (Client Cert Required)" }
+        ]
+      },
+      "stripe-checkout-demo.net": {
+        domain: "stripe-checkout-demo.net",
+        companyName: "Stripe Demo FinTech Solutions",
+        industry: "Financial Technology & Payment Processing",
+        overallScore: 96,
+        overallGrade: "Grade A+",
+        subdomainCount: 12,
+        leadCount: 8,
+        openPortCount: 3,
+        techModernity: "99%",
+        subdomains: [
+          { fqdn: "stripe-checkout-demo.net", ip: "151.101.1.195", status: 200, latency: "14ms", tls: "TLS 1.3 (Valid)", role: "Apex FinTech Portal", cdn: "Fastly" },
+          { fqdn: "pay.stripe-checkout-demo.net", ip: "151.101.65.195", status: 200, latency: "16ms", tls: "TLS 1.3 (Valid)", role: "Secure Checkout Flow", cdn: "Fastly" },
+          { fqdn: "api.stripe-checkout-demo.net", ip: "3.235.110.82", status: 200, latency: "34ms", tls: "TLS 1.3 (Valid)", role: "PCI-DSS Compliant API", cdn: "AWS CloudFront" },
+          { fqdn: "webhook.stripe-checkout-demo.net", ip: "3.235.110.85", status: 200, latency: "35ms", tls: "TLS 1.3 (Valid)", role: "Stripe Event Ingestion", cdn: "AWS Lambda" }
+        ],
+        leads: [
+          { name: "Victoria Sterling", title: "Chief Technology Officer", email: "victoria@stripe-checkout-demo.net", conf: "99%", phone: "+1 (650) 419-8800", linkedin: "linkedin.com/in/victoria-sterling-cto", twitter: "@vsterling_fin", github: "vsterling", location: "Palo Alto, CA", score: 99, tier: "Platinum", status: "VIP Executive" },
+          { name: "Devon Reed", title: "Head of Payment Security", email: "d.reed@stripe-checkout-demo.net", conf: "97%", phone: "+1 (650) 419-8822", linkedin: "linkedin.com/in/devonreed-pci", twitter: "@dreed_sec", github: "dreed-sec", location: "Palo Alto, CA", score: 96, tier: "Platinum", status: "Active Outreach" }
+        ],
+        technologies: [
+          { name: "React 18 & TypeScript", category: "Frontend Framework", version: "18.3.1", confidence: 99, evidence: "React Fiber DOM nodes, TypeScript module artifacts" },
+          { name: "Stripe Payment Gateway", category: "FinTech Infrastructure", version: "v3", confidence: 100, evidence: "Stripe.js checkout hooks & PCI tokenization" },
+          { name: "Fastly Edge Cloud", category: "CDN / WAF", version: "Varnish 6.0", confidence: 99, evidence: "Fastly-Debug headers, X-Served-By edge cache" }
+        ],
+        ports: [
+          { port: 80, proto: "TCP", service: "HTTP", banner: "Fastly / 301 Redirect to HTTPS", risk: "Low", tls: "N/A" },
+          { port: 443, proto: "TCP", service: "HTTPS", banner: "Envoy Proxy / 1.30.0", risk: "Low", tls: "TLS 1.3 / AEAD" },
+          { port: 8443, proto: "TCP", service: "HTTPS-API", banner: "Stripe TLS Gateway", risk: "Low", tls: "TLS 1.3 Strict Mutual TLS" }
+        ]
+      },
+      "cyber-defense-labs.com": {
+        domain: "cyber-defense-labs.com",
+        companyName: "Cyber Defense Research Labs",
+        industry: "Cybersecurity & Threat Intelligence",
+        overallScore: 88,
+        overallGrade: "Grade A",
+        subdomainCount: 22,
+        leadCount: 16,
+        openPortCount: 8,
+        techModernity: "90%",
+        subdomains: [
+          { fqdn: "cyber-defense-labs.com", ip: "192.0.2.88", status: 200, latency: "29ms", tls: "TLS 1.3 (Valid)", role: "Main Portal", cdn: "Cloudflare" },
+          { fqdn: "soc.cyber-defense-labs.com", ip: "192.0.2.90", status: 403, latency: "31ms", tls: "TLS 1.3 (Valid)", role: "SOC Console", cdn: "WAF Protected" },
+          { fqdn: "feed.cyber-defense-labs.com", ip: "192.0.2.92", status: 200, latency: "22ms", tls: "TLS 1.3 (Valid)", role: "STIX/TAXII Threat Feed", cdn: "Direct" }
+        ],
+        leads: [
+          { name: "Col. Gregory Ross (Ret.)", title: "VP of Threat Operations", email: "g.ross@cyber-defense-labs.com", conf: "98%", phone: "+1 (703) 991-3400", linkedin: "linkedin.com/in/gregoryross-soc", twitter: "@gross_threats", github: "gross-intel", location: "McLean, VA", score: 97, tier: "Platinum", status: "Federal Target" }
+        ],
+        technologies: [
+          { name: "Vue.js & Nuxt", category: "Frontend Framework", version: "3.11.0", confidence: 97, evidence: "Nuxt hydration, Vue 3 reactive DOM nodes" },
+          { name: "Elasticsearch & Kibana", category: "SIEM & Big Data", version: "8.13.0", confidence: 94, evidence: "REST API cluster signatures" }
+        ],
+        ports: [
+          { port: 22, proto: "TCP", service: "SSH", banner: "OpenSSH 9.6p1", risk: "Low", tls: "SSH-2.0" },
+          { port: 443, proto: "TCP", service: "HTTPS", banner: "nginx / 1.26.0", risk: "Low", tls: "TLS 1.3" },
+          { port: 9200, proto: "TCP", service: "Elasticsearch", banner: "Elasticsearch REST API", risk: "High", tls: "TLS Basic Auth" }
+        ]
+      },
+      "green-energy-tech.org": {
+        domain: "green-energy-tech.org",
+        companyName: "Green Energy Grid Initiative",
+        industry: "Renewable Energy & IoT Telemetry",
+        overallScore: 84,
+        overallGrade: "Grade B+",
+        subdomainCount: 15,
+        leadCount: 10,
+        openPortCount: 5,
+        techModernity: "88%",
+        subdomains: [
+          { fqdn: "green-energy-tech.org", ip: "198.51.100.22", status: 200, latency: "42ms", tls: "TLS 1.3 (Valid)", role: "Initiative Portal", cdn: "AWS CloudFront" },
+          { fqdn: "grid.green-energy-tech.org", ip: "198.51.100.25", status: 200, latency: "45ms", tls: "TLS 1.2 (Valid)", role: "IoT Grid Telemetry", cdn: "AWS IoT" }
+        ],
+        leads: [
+          { name: "Dr. Evelyn Vance", title: "Chief Scientific Officer", email: "evelyn.vance@green-energy-tech.org", conf: "95%", phone: "+1 (303) 555-0199", linkedin: "linkedin.com/in/evelynvance-energy", twitter: "@evance_green", github: "evance-grid", location: "Boulder, CO", score: 92, tier: "Platinum", status: "Outreach Ready" }
+        ],
+        technologies: [
+          { name: "WordPress & Elementor", category: "CMS", version: "6.5.3", confidence: 98, evidence: "wp-content directories, wp-json REST API" },
+          { name: "AWS CloudFront", category: "CDN / Edge", version: "AWS Cloud", confidence: 96, evidence: "X-Amz-Cf-Id response headers" }
+        ],
+        ports: [
+          { port: 80, proto: "TCP", service: "HTTP", banner: "Apache / 2.4.58", risk: "Low", tls: "N/A" },
+          { port: 443, proto: "TCP", service: "HTTPS", banner: "Apache / 2.4.58", risk: "Low", tls: "TLS 1.3" },
+          { port: 1883, proto: "TCP", service: "MQTT", banner: "Mosquitto MQTT Broker", risk: "High", tls: "Unencrypted IoT Stream" }
+        ]
+      }
+    };
+
+    let currentDomain = "acme-cloud.io";
+    let currentData = DATASETS["acme-cloud.io"];
+
+    // Initialize application on load
+    window.addEventListener("DOMContentLoaded", () => {
+      renderAll();
+      initMcpCodeSnippet();
+      updateMcpSimParams("recon_subdomains");
+    });
+
+    function renderAll() {
+      renderDialAndKPIs();
+      renderSubdomainsTable(currentData.subdomains);
+      renderSubdomainsTree(currentData.subdomains);
+      renderLeadsTable(currentData.leads);
+      renderTechGrid(currentData.technologies);
+      renderPortsGrid(currentData.ports);
+      renderExecutiveReport();
+      document.getElementById("targetDomainInput").value = currentData.domain;
+      document.getElementById("targetDomainDisplay").innerHTML = `Target: <strong>${currentData.domain}</strong>`;
+      document.getElementById("treeRootDomainLabel").textContent = currentData.domain;
+    }
+
+    /* Radial Score Dial & KPI Cards Rendering */
+    function renderDialAndKPIs() {
+      const score = currentData.overallScore;
+      const dialEl = document.getElementById("scoreDialCircle");
+      const scoreValEl = document.getElementById("overallScoreVal");
+      const gradeBadgeEl = document.getElementById("overallGradeBadge");
+
+      scoreValEl.textContent = score;
+      
+      // Calculate stroke-dashoffset: radius 68 -> circumference ~ 427.25
+      const circumference = 2 * Math.PI * 68;
+      const offset = circumference - (circumference * (score / 100));
+      dialEl.style.strokeDasharray = `${circumference}`;
+      dialEl.style.strokeDashoffset = `${offset}`;
+
+      if (score >= 90) {
+        dialEl.style.stroke = "var(--google-green)";
+        gradeBadgeEl.textContent = "Grade A+";
+        gradeBadgeEl.style.backgroundColor = "var(--google-green-container)";
+        gradeBadgeEl.style.color = "var(--google-green)";
+      } else if (score >= 80) {
+        dialEl.style.stroke = "var(--google-blue)";
+        gradeBadgeEl.textContent = "Grade A";
+        gradeBadgeEl.style.backgroundColor = "var(--google-blue-container)";
+        gradeBadgeEl.style.color = "var(--google-blue)";
+      } else if (score >= 70) {
+        dialEl.style.stroke = "var(--google-yellow)";
+        gradeBadgeEl.textContent = "Grade B";
+        gradeBadgeEl.style.backgroundColor = "var(--google-yellow-container)";
+        gradeBadgeEl.style.color = "var(--google-yellow-dark)";
+      } else {
+        dialEl.style.stroke = "var(--google-red)";
+        gradeBadgeEl.textContent = "Grade C";
+        gradeBadgeEl.style.backgroundColor = "var(--google-red-container)";
+        gradeBadgeEl.style.color = "var(--google-red)";
+      }
+
+      document.getElementById("kpiSubdomainCount").textContent = currentData.subdomains.length;
+      document.getElementById("kpiLeadCount").textContent = currentData.leads.length;
+      document.getElementById("kpiPortCount").textContent = `${currentData.ports.length} Open`;
+      document.getElementById("kpiTechCount").textContent = currentData.techModernity || "95%";
+
+      document.getElementById("tabCountSubdomains").textContent = currentData.subdomains.length;
+      document.getElementById("tabCountLeads").textContent = currentData.leads.length;
+      document.getElementById("tabCountTech").textContent = currentData.technologies.length;
+      document.getElementById("tabCountPorts").textContent = currentData.ports.length;
+    }
+
+    /* Subdomains Table */
+    function renderSubdomainsTable(subdomains) {
+      const tbody = document.getElementById("subdomainTableBody");
+      tbody.innerHTML = "";
+
+      subdomains.forEach(item => {
+        const tr = document.createElement("tr");
+
+        let statusBadge = `<span class="chip chip-green">${item.status} OK</span>`;
+        if (item.status === 301 || item.status === 302) {
+          statusBadge = `<span class="chip chip-blue">${item.status} Redirect</span>`;
+        } else if (item.status === 403 || item.status === 401) {
+          statusBadge = `<span class="chip chip-yellow">${item.status} Auth/Denied</span>`;
+        } else if (item.status >= 500) {
+          statusBadge = `<span class="chip chip-red">${item.status} Error</span>`;
+        }
+
+        tr.innerHTML = `
+          <td>
+            <div style="font-weight: 600; font-family: var(--font-family-mono); font-size: 13px;">${item.fqdn}</div>
+          </td>
+          <td>
+            <div style="font-family: var(--font-family-mono); font-size: 12px; color: var(--md-sys-color-on-surface-variant);">
+              ${item.ip}
+              <span class="chip chip-outline" style="font-size: 11px; margin-left: 4px;">${item.cdn || "Direct IP"}</span>
+            </div>
+          </td>
+          <td>${statusBadge}</td>
+          <td>
+            <div style="font-size: 12px; font-weight: 500;">
+              ${item.latency}
+            </div>
+          </td>
+          <td>
+            <span class="chip chip-green" style="font-size: 11.5px;">🔒 ${item.tls}</span>
+          </td>
+          <td>
+            <span style="font-size: 12.5px; color: var(--md-sys-color-on-surface);">${item.role}</span>
+          </td>
+          <td>
+            <button class="btn-action-sm" style="padding: 3px 8px; font-size: 11px;" onclick="copyText('${item.fqdn}')">Copy</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* Subdomains Visual Tree */
+    function renderSubdomainsTree(subdomains) {
+      const container = document.getElementById("treeBranchesContainer");
+      container.innerHTML = "";
+
+      // Group subdomains by role/type
+      const groups = {
+        "Core Web & Marketing": subdomains.filter(s => s.role.toLowerCase().includes("web") || s.role.toLowerCase().includes("market") || s.role.toLowerCase().includes("landing")),
+        "APIs & Microservices": subdomains.filter(s => s.role.toLowerCase().includes("api") || s.role.toLowerCase().includes("gateway") || s.role.toLowerCase().includes("webhook")),
+        "Auth, Admin & Security": subdomains.filter(s => s.role.toLowerCase().includes("auth") || s.role.toLowerCase().includes("admin") || s.role.toLowerCase().includes("vpn") || s.role.toLowerCase().includes("soc")),
+        "SaaS, CDN & Infrastructure": subdomains.filter(s => !s.role.toLowerCase().includes("web") && !s.role.toLowerCase().includes("api") && !s.role.toLowerCase().includes("auth") && !s.role.toLowerCase().includes("admin"))
+      };
+
+      for (const [groupName, items] of Object.entries(groups)) {
+        if (items.length === 0) continue;
+
+        const box = document.createElement("div");
+        box.className = "tree-group-box";
+        box.innerHTML = `
+          <div class="tree-group-title">
+            <span>${groupName}</span>
+            <span class="chip chip-outline" style="font-size: 11px;">${items.length} nodes</span>
+          </div>
+          <div class="tree-group-leaves">
+            ${items.map(leaf => `
+              <div class="tree-leaf-item">
+                <div>
+                  <div style="font-weight: 600; font-family: var(--font-family-mono); font-size: 12.5px;">${leaf.fqdn}</div>
+                  <div style="font-size: 11px; color: var(--md-sys-color-on-surface-variant);">${leaf.role} • ${leaf.ip}</div>
+                </div>
+                <span class="chip ${leaf.status === 200 ? 'chip-green' : (leaf.status === 403 ? 'chip-yellow' : 'chip-blue')}" style="font-size: 11px;">${leaf.status}</span>
+              </div>
+            `).join("")}
+          </div>
+        `;
+        container.appendChild(box);
+      }
+    }
+
+    /* Leads Table */
+    function renderLeadsTable(leads) {
+      const tbody = document.getElementById("leadsTableBody");
+      tbody.innerHTML = "";
+
+      leads.forEach(lead => {
+        const tr = document.createElement("tr");
+
+        let tierChip = `<span class="chip chip-purple">${lead.tier || "Platinum"}</span>`;
+        if (lead.score < 80) tierChip = `<span class="chip chip-blue">${lead.tier || "Silver"}</span>`;
+        if (lead.score >= 80 && lead.score < 90) tierChip = `<span class="chip chip-green">${lead.tier || "Gold"}</span>`;
+
+        tr.innerHTML = `
+          <td>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 34px; height: 34px; border-radius: 50%; background: var(--google-blue-container); color: var(--google-blue); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+                ${lead.name.split(" ").map(n=>n[0]).join("").slice(0,2)}
+              </div>
+              <div>
+                <div style="font-weight: 600; color: var(--md-sys-color-on-surface);">${lead.name}</div>
+                <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant);">${lead.title}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-family: var(--font-family-mono); font-size: 12.5px; font-weight: 500; color: var(--google-blue);">
+              ${lead.email}
+            </div>
+            <div style="font-size: 11px; color: var(--google-green);">
+              ● MX Verified (${lead.conf || '95%'} Confidence)
+            </div>
+          </td>
+          <td>
+            <div style="font-size: 12.5px; font-family: var(--font-family-mono); color: var(--md-sys-color-on-surface);">
+              ${lead.phone || '<span style="color: #9aa0a6;">Not Published</span>'}
+            </div>
+          </td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              ${lead.linkedin ? `<a href="https://${lead.linkedin}" target="_blank" class="chip chip-outline" style="text-decoration: none; color: #0a66c2; font-size: 11px;">LinkedIn</a>` : ''}
+              ${lead.twitter ? `<span class="chip chip-outline" style="font-size: 11px; color: #1da1f2;">${lead.twitter}</span>` : ''}
+              ${lead.github ? `<span class="chip chip-outline" style="font-size: 11px;">GH: ${lead.github}</span>` : ''}
+            </div>
+          </td>
+          <td>
+            <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant);">${lead.location || 'HQ'}</div>
+          </td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 700; font-size: 14px;">${lead.score}</span>
+              ${tierChip}
+            </div>
+          </td>
+          <td>
+            <span class="chip chip-outline" style="font-size: 11px;">${lead.status || "Ready"}</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* Technology Profiler Grid */
+    function renderTechGrid(techList) {
+      const container = document.getElementById("techGridContainer");
+      container.innerHTML = "";
+
+      techList.forEach(t => {
+        const card = document.createElement("div");
+        card.className = "tech-card";
+        card.innerHTML = `
+          <div class="tech-card-header">
+            <div class="tech-name">
+              <span>⚡</span>
+              <span>${t.name}</span>
+            </div>
+            <span class="chip chip-blue" style="font-size: 11px;">${t.category}</span>
+          </div>
+          <div style="font-size: 12.5px; color: var(--md-sys-color-on-surface-variant);">
+            Version: <strong>${t.version || 'Latest'}</strong>
+          </div>
+          <div style="font-size: 12px; color: #3c4043; background: var(--md-sys-color-surface-container-low); padding: 6px 10px; border-radius: var(--md-shape-corner-xs); font-family: var(--font-family-mono);">
+            ${t.evidence}
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">
+              <span>Detection Confidence</span>
+              <strong>${t.confidence}%</strong>
+            </div>
+            <div class="confidence-meter-bar">
+              <div class="confidence-meter-fill" style="width: ${t.confidence}%;"></div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* Ports Grid */
+    function renderPortsGrid(ports) {
+      const container = document.getElementById("portsGridContainer");
+      container.innerHTML = "";
+
+      ports.forEach(p => {
+        const box = document.createElement("div");
+        box.className = `port-box ${p.risk === 'High' ? 'risk-high' : ''}`;
+
+        let riskChip = `<span class="chip chip-green">Low Exposure</span>`;
+        if (p.risk === 'Medium') riskChip = `<span class="chip chip-yellow">Medium Risk</span>`;
+        if (p.risk === 'High') riskChip = `<span class="chip chip-red">High Risk Exposed</span>`;
+
+        box.innerHTML = `
+          <div class="port-number">
+            <span>Port ${p.port}</span>
+            <span style="font-size: 12px; font-weight: 500; color: var(--md-sys-color-on-surface-variant);">${p.proto}</span>
+          </div>
+          <div style="font-weight: 600; font-size: 14px; color: var(--google-blue);">${p.service}</div>
+          <div style="font-size: 12px; font-family: var(--font-family-mono); background: var(--md-sys-color-surface-container-low); padding: 6px; border-radius: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${p.banner}">
+            ${p.banner}
+          </div>
+          <div style="font-size: 11px; color: var(--md-sys-color-on-surface-variant);">
+            TLS: <strong>${p.tls || 'None'}</strong>
+          </div>
+          <div style="margin-top: auto; padding-top: 8px;">
+            ${riskChip}
+          </div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    /* Executive Report Builder */
+    function renderExecutiveReport() {
+      const report = document.getElementById("reportPreviewContainer");
+      const d = currentData;
+
+      report.innerHTML = `
+        <div class="report-title-section">
+          <div>
+            <h1 class="report-h1">Executive Reconnaissance & Intelligence Brief</h1>
+            <div class="report-meta">
+              Target Entity: <strong>${d.companyName} (${d.domain})</strong> | Industry: ${d.industry}
+            </div>
+            <div class="report-meta">
+              Scan Generated: ${new Date().toUTCString()} | SubSweep Security Suite v2.4.0
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 28px; font-weight: 700; color: var(--google-green);">${d.overallScore}/100</div>
+            <span class="chip chip-green">${d.overallGrade}</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">1. Executive Summary & Attack Surface Assessment</h3>
+          <p style="font-size: 13.5px; line-height: 1.6; color: var(--md-sys-color-on-surface);">
+            OSINT enumeration completed across authoritative DNS records, Certificate Transparency logs, edge CDNs, and public contact registries. 
+            Identified <strong>${d.subdomains.length} subdomains</strong> (with ${d.subdomains.filter(s=>s.status===200).length} active HTTP/S web endpoints), 
+            <strong>${d.ports.length} exposed TCP service ports</strong>, and <strong>${d.leads.length} verified executive contacts</strong> with deliverable work emails.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+          <div class="card" style="padding: 16px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--google-blue);">Primary Technology Infrastructure</h4>
+            <ul style="font-size: 13px; color: var(--md-sys-color-on-surface-variant); padding-left: 18px; line-height: 1.6;">
+              ${d.technologies.slice(0, 5).map(t => `<li><strong>${t.name}</strong> (${t.category}) - ${t.evidence}</li>`).join("")}
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 16px;">
+            <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--google-yellow-dark);">Perimeter Exposure & Risk Findings</h4>
+            <ul style="font-size: 13px; color: var(--md-sys-color-on-surface-variant); padding-left: 18px; line-height: 1.6;">
+              ${d.ports.map(p => `<li>Port <strong>${p.port}/${p.proto}</strong> (${p.service}) - Exposure: <span class="chip ${p.risk==='High'?'chip-red':'chip-green'}" style="font-size:10px;">${p.risk}</span></li>`).join("")}
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">2. High-Priority Decision Maker Leads (${d.leads.length} Contacts)</h3>
+          <div class="table-container">
+            <table class="m3-table">
+              <thead>
+                <tr>
+                  <th>Contact</th>
+                  <th>Title & Role</th>
+                  <th>Verified Email</th>
+                  <th>Direct Phone</th>
+                  <th>Lead Quality</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${d.leads.slice(0, 5).map(l => `
+                  <tr>
+                    <td style="font-weight: 600;">${l.name}</td>
+                    <td>${l.title}</td>
+                    <td style="font-family: var(--font-family-mono); color: var(--google-blue);">${l.email}</td>
+                    <td>${l.phone || 'N/A'}</td>
+                    <td><span class="chip chip-purple">${l.score}/100</span></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    /* Tab Switching */
+    function switchTab(tabId, btn) {
+      document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      btn.classList.add("active");
+    }
+
+    /* View Toggle for Subdomains */
+    function toggleSubdomainView(view) {
+      const table = document.getElementById("subdomainsTableView");
+      const tree = document.getElementById("subdomainsTreeView");
+      if (view === "table") {
+        table.style.display = "block";
+        tree.style.display = "none";
+      } else {
+        table.style.display = "none";
+        tree.style.display = "block";
+      }
+    }
+
+    /* Filter Subdomains */
+    function filterSubdomains(filter, btn) {
+      btn.parentNode.querySelectorAll(".btn-filter-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      let filtered = currentData.subdomains;
+      if (filter === "200") filtered = currentData.subdomains.filter(s => s.status === 200);
+      if (filter === "redirect") filtered = currentData.subdomains.filter(s => s.status === 301 || s.status === 302);
+      if (filter === "auth") filtered = currentData.subdomains.filter(s => s.role.toLowerCase().includes("auth") || s.role.toLowerCase().includes("admin") || s.status === 403);
+
+      renderSubdomainsTable(filtered);
+    }
+
+    /* Filter Leads */
+    function filterLeads(filter, btn) {
+      btn.parentNode.querySelectorAll(".btn-filter-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      let filtered = currentData.leads;
+      if (filter === "score80") filtered = currentData.leads.filter(l => l.score >= 80);
+      if (filter === "exec") filtered = currentData.leads.filter(l => l.title.toLowerCase().includes("ciso") || l.title.toLowerCase().includes("cto") || l.title.toLowerCase().includes("ceo") || l.title.toLowerCase().includes("vp") || l.title.toLowerCase().includes("director") || l.title.toLowerCase().includes("head"));
+      if (filter === "phone") filtered = currentData.leads.filter(l => l.phone && l.phone.trim().length > 0);
+
+      renderLeadsTable(filtered);
+    }
+
+    /* Preset Domain Selector */
+    function loadPresetDomain(domain) {
+      if (DATASETS[domain]) {
+        currentDomain = domain;
+        currentData = DATASETS[domain];
+        renderAll();
+        showToast(`Loaded preset dataset for ${domain}`);
+      }
+    }
+
+    /* Handle Scan Form Submit (Simulated Live Scanner) */
+    function handleScanSubmit(e) {
+      e.preventDefault();
+      const domain = document.getElementById("targetDomainInput").value.trim().toLowerCase();
+      if (!domain) return;
+
+      const banner = document.getElementById("scanProgressBanner");
+      const title = document.getElementById("progressTitle");
+      const fill = document.getElementById("progressBarFill");
+      const percent = document.getElementById("progressPercent");
+      const stepText = document.getElementById("progressStepText");
+
+      banner.style.display = "block";
+      fill.style.width = "0%";
+      title.textContent = `🔍 Executing OSINT Recon & Lead Harvest on ${domain}...`;
+
+      const steps = [
+        { p: 20, text: "1/5 Querying Certificate Transparency Logs (crt.sh & AlienVault)..." },
+        { p: 45, text: "2/5 Probing TCP Ports (22, 80, 443, 3306, 5432, 8443)..." },
+        { p: 70, text: "3/5 Fingerprinting Frontend, CDN, and Security Headers..." },
+        { p: 88, text: "4/5 Scraping Decision Maker Contacts & Verifying MX Records..." },
+        { p: 100, text: "5/5 Computing Composite Recon Grade & Lead Scores..." }
+      ];
+
+      let stepIdx = 0;
+      const interval = setInterval(() => {
+        if (stepIdx < steps.length) {
+          const item = steps[stepIdx];
+          fill.style.width = `${item.p}%`;
+          percent.textContent = `${item.p}%`;
+          stepText.textContent = item.text;
+          stepIdx++;
+        } else {
+          clearInterval(interval);
+          setTimeout(() => {
+            banner.style.display = "none";
+            // Check if existing or generate synthesized data
+            if (DATASETS[domain]) {
+              currentData = DATASETS[domain];
+            } else {
+              currentData = generateSynthesizedDomainData(domain);
+              DATASETS[domain] = currentData;
+            }
+            renderAll();
+            showToast(`Recon scan completed for ${domain}!`);
+          }, 400);
+        }
+      }, 300);
+    }
+
+    /* Helper: Synthesizes dynamic data for custom domains */
+    function generateSynthesizedDomainData(domain) {
+      const cleanName = domain.split(".")[0];
+      const capName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+      return {
+        domain: domain,
+        companyName: `${capName} Global Network`,
+        industry: "Enterprise Software & Cloud Services",
+        overallScore: Math.floor(Math.random() * 15) + 82,
+        overallGrade: "Grade A",
+        techModernity: "94%",
+        subdomains: [
+          { fqdn: domain, ip: "104.26.10.42", status: 200, latency: "22ms", tls: "TLS 1.3 (Valid)", role: "Apex Web", cdn: "Cloudflare" },
+          { fqdn: `www.${domain}`, ip: "104.26.10.42", status: 200, latency: "23ms", tls: "TLS 1.3 (Valid)", role: "Marketing Landing", cdn: "Cloudflare" },
+          { fqdn: `api.${domain}`, ip: "34.110.45.19", status: 200, latency: "36ms", tls: "TLS 1.3 (Valid)", role: "API Gateway", cdn: "Google Cloud" },
+          { fqdn: `app.${domain}`, ip: "76.76.21.21", status: 200, latency: "18ms", tls: "TLS 1.3 (Valid)", role: "SaaS Dashboard", cdn: "Vercel" },
+          { fqdn: `auth.${domain}`, ip: "34.110.45.22", status: 200, latency: "40ms", tls: "TLS 1.3 (Valid)", role: "OAuth Identity Provider", cdn: "Cloudflare" },
+          { fqdn: `docs.${domain}`, ip: "185.199.108.153", status: 200, latency: "29ms", tls: "TLS 1.3 (Valid)", role: "Documentation", cdn: "GitHub Pages" },
+          { fqdn: `status.${domain}`, ip: "104.18.22.4", status: 200, latency: "26ms", tls: "TLS 1.3 (Valid)", role: "Status Portal", cdn: "Cloudflare" }
+        ],
+        leads: [
+          { name: `Alex ${capName}`, title: "VP of Engineering", email: `alex@${domain}`, conf: "98%", phone: "+1 (555) 019-2831", linkedin: `linkedin.com/in/alex-${cleanName}`, twitter: `@alex_${cleanName}`, github: `alex-${cleanName}`, location: "San Francisco, CA", score: 95, tier: "Platinum", status: "Active Outreach" },
+          { name: `Morgan Lee`, title: "Chief Information Security Officer", email: `m.lee@${domain}`, conf: "97%", phone: "+1 (555) 019-2834", linkedin: `linkedin.com/in/morgan-lee-sec`, twitter: `@mlee_sec`, github: "mlee-sec", location: "New York, NY", score: 94, tier: "Platinum", status: "Outreach Ready" },
+          { name: `Jordan Rivera`, title: "Director of DevOps & Cloud", email: `j.rivera@${domain}`, conf: "94%", phone: "+1 (555) 019-2890", linkedin: `linkedin.com/in/jordanrivera-ops`, twitter: `@jrivera_ops`, github: "jrivera", location: "Austin, TX", score: 91, tier: "Platinum", status: "Targeted" }
+        ],
+        technologies: [
+          { name: "React & Next.js", category: "Frontend Framework", version: "14.2.4", confidence: 99, evidence: "DOM hydration bundle, React component tree" },
+          { name: "Cloudflare Edge", category: "CDN / WAF", version: "Global Anycast", confidence: 98, evidence: "CF-RAY headers, SSL SNI edge" },
+          { name: "Tailwind CSS", category: "Styling Framework", version: "3.4.0", confidence: 95, evidence: "Utility CSS class definitions" },
+          { name: "HSTS Header", category: "Security Header", version: "Preload", confidence: 100, evidence: "Strict-Transport-Security: max-age=31536000" }
+        ],
+        ports: [
+          { port: 80, proto: "TCP", service: "HTTP", banner: "cloudflare / 301 Redirect", risk: "Low", tls: "N/A" },
+          { port: 443, proto: "TCP", service: "HTTPS", banner: "nginx / 1.24 (Ubuntu)", risk: "Low", tls: "TLS 1.3" },
+          { port: 22, proto: "TCP", service: "SSH", banner: "OpenSSH 9.3", risk: "Medium", tls: "SSH-2.0" }
+        ]
+      };
+    }
+
+    /* MCP Client Snippets */
+    const MCP_CONFIGS = {
+      claude: {
+        filename: "claude_desktop_config.json",
+        code: `{
+  "mcpServers": {
+    "subsweep-recon": {
+      "command": "python",
+      "args": [
+        "-m",
+        "subsweep_lead_scanner.mcp_server"
+      ],
+      "env": {
+        "SUBSWEEP_RATE_LIMIT": "50",
+        "SUBSWEEP_TIMEOUT": "10"
+      }
+    }
+  }
+}`
+      },
+      cursor: {
+        filename: ".cursor/mcp.json",
+        code: `{
+  "mcpServers": {
+    "subsweep-recon": {
+      "command": "python",
+      "args": ["-m", "subsweep_lead_scanner.mcp_server"],
+      "env": {}
+    }
+  }
+}`
+      },
+      cline: {
+        filename: "cline_mcp_settings.json",
+        code: `{
+  "mcpServers": {
+    "subsweep-lead-scanner": {
+      "command": "python",
+      "args": ["-m", "subsweep_lead_scanner.mcp_server"],
+      "disabled": false,
+      "autoApprove": [
+        "subsweep.recon_subdomains",
+        "subsweep.harvest_leads"
+      ]
+    }
+  }
+}`
+      },
+      zed: {
+        filename: "settings.json (Zed Context Servers)",
+        code: `{
+  "context_servers": {
+    "subsweep-recon": {
+      "command": {
+        "path": "python",
+        "args": ["-m", "subsweep_lead_scanner.mcp_server"]
+      }
+    }
+  }
+}`
+      }
+    };
+
+    function initMcpCodeSnippet() {
+      switchMcpClientSnippet("claude", document.querySelector(".filter-chips-group .btn-filter-chip"));
+    }
+
+    function switchMcpClientSnippet(client, btn) {
+      if (btn && btn.parentNode) {
+        btn.parentNode.querySelectorAll(".btn-filter-chip").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+      const data = MCP_CONFIGS[client];
+      document.getElementById("mcpConfigFilename").textContent = data.filename;
+      document.getElementById("mcpConfigCodeText").textContent = data.code;
+    }
+
+    function copyMcpCode() {
+      const code = document.getElementById("mcpConfigCodeText").textContent;
+      copyText(code);
+    }
+
+    /* MCP Simulator */
+    function updateMcpSimParams(tool) {
+      const argsEl = document.getElementById("mcpToolArgs");
+      if (tool === "recon_subdomains") {
+        argsEl.value = JSON.stringify({ domain: currentData.domain, passive_only: true, timeout: 10 }, null, 2);
+      } else if (tool === "harvest_leads") {
+        argsEl.value = JSON.stringify({ domain: currentData.domain, max_leads: 10, verify_mx: true }, null, 2);
+      } else if (tool === "fingerprint_tech") {
+        argsEl.value = JSON.stringify({ url: `https://${currentData.domain}`, deep_scan: true }, null, 2);
+      } else if (tool === "scan_ports") {
+        argsEl.value = JSON.stringify({ target: currentData.domain, ports: [22, 80, 443, 3306, 5432, 8443] }, null, 2);
+      } else if (tool === "generate_recon_report") {
+        argsEl.value = JSON.stringify({ domain: currentData.domain, format: "json" }, null, 2);
+      }
+    }
+
+    function executeMcpSim() {
+      const tool = document.getElementById("mcpToolSelect").value;
+      const output = document.getElementById("mcpSimOutput");
+      output.textContent = "Executing JSON-RPC tool invocation...";
+
+      setTimeout(() => {
+        let result = {};
+        if (tool === "recon_subdomains") {
+          result = {
+            domain: currentData.domain,
+            subdomains_found: currentData.subdomains.length,
+            records: currentData.subdomains.map(s => ({ fqdn: s.fqdn, ip: s.ip, status: s.status }))
+          };
+        } else if (tool === "harvest_leads") {
+          result = {
+            domain: currentData.domain,
+            leads_harvested: currentData.leads.length,
+            leads: currentData.leads.slice(0, 3)
+          };
+        } else if (tool === "fingerprint_tech") {
+          result = {
+            target: currentData.domain,
+            technologies: currentData.technologies
+          };
+        } else if (tool === "scan_ports") {
+          result = {
+            target: currentData.domain,
+            open_ports: currentData.ports
+          };
+        } else if (tool === "generate_recon_report") {
+          result = {
+            domain: currentData.domain,
+            score: currentData.overallScore,
+            grade: currentData.overallGrade,
+            subdomains: currentData.subdomains.length,
+            leads: currentData.leads.length
+          };
+        }
+
+        const jsonRpcResponse = {
+          jsonrpc: "2.0",
+          id: Math.floor(Math.random() * 1000) + 1,
+          result: {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify(result, null, 2)
+              }
+            ],
+            isError: false
+          }
+        };
+
+        output.textContent = JSON.stringify(jsonRpcResponse, null, 2);
+        showToast(`Simulated MCP Tool '${tool}' call returned success!`);
+      }, 250);
+    }
+
+    /* CSV / JSON / Markdown Exporters */
+    function exportLeadsCSV() {
+      const leads = currentData.leads;
+      const headers = ["Name", "Title", "Email", "Confidence", "Phone", "LinkedIn", "Twitter", "GitHub", "Location", "Score", "Tier", "Status"];
+      const rows = leads.map(l => [
+        `"${l.name}"`,
+        `"${l.title}"`,
+        `"${l.email}"`,
+        `"${l.conf || '95%'}"`,
+        `"${l.phone || ''}"`,
+        `"${l.linkedin || ''}"`,
+        `"${l.twitter || ''}"`,
+        `"${l.github || ''}"`,
+        `"${l.location || ''}"`,
+        l.score,
+        `"${l.tier || 'Platinum'}"`,
+        `"${l.status || 'Ready'}"`
+      ]);
+
+      const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      downloadFile(csvContent, `${currentData.domain}-leads.csv`, "text/csv");
+      showToast(`Exported ${leads.length} leads to CSV`);
+    }
+
+    function exportLeadsJSON() {
+      const jsonContent = JSON.stringify(currentData.leads, null, 2);
+      downloadFile(jsonContent, `${currentData.domain}-leads.json`, "application/json");
+      showToast(`Exported leads to JSON`);
+    }
+
+    function exportExecutiveBundle() {
+      const bundle = JSON.stringify(currentData, null, 2);
+      downloadFile(bundle, `${currentData.domain}-recon-intelligence-bundle.json`, "application/json");
+      showToast(`Exported full intelligence bundle for ${currentData.domain}`);
+    }
+
+    function downloadMarkdownReport() {
+      const d = currentData;
+      const md = `# SubSweep Executive Reconnaissance Report: ${d.companyName} (${d.domain})
+
+Generated: ${new Date().toUTCString()}  
+Composite Recon Score: **${d.overallScore}/100 (${d.overallGrade})**  
+Target Industry: ${d.industry}  
+
+---
+
+## 1. Executive Summary
+During reconnaissance of **${d.domain}**, SubSweep enumerated:
+- **${d.subdomains.length} Subdomains**
+- **${d.ports.length} Open Network Ports**
+- **${d.technologies.length} Identified Technologies**
+- **${d.leads.length} Verified Decision Maker Leads**
+
+## 2. Discovered Subdomains
+| Subdomain | IP Address | HTTP Status | Role | TLS Status |
+|---|---|---|---|---|
+${d.subdomains.map(s => `| \`${s.fqdn}\` | ${s.ip} | ${s.status} | ${s.role} | ${s.tls} |`).join("\n")}
+
+## 3. Technology Stack Fingerprint
+${d.technologies.map(t => `- **${t.name}** (\`${t.category}\`): ${t.evidence} (Confidence: ${t.confidence}%)`).join("\n")}
+
+## 4. Exposed Network Ports
+| Port | Protocol | Service | Banner | Exposure Risk |
+|---|---|---|---|---|
+${d.ports.map(p => `| ${p.port} | ${p.proto} | ${p.service} | ${p.banner} | **${p.risk}** |`).join("\n")}
+
+## 5. Verified Executive & B2B Leads
+| Name | Title | Email | Phone | Score |
+|---|---|---|---|---|
+${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/A'} | **${l.score}/100** |`).join("\n")}
+
+---
+*Report generated by SubSweep OSINT Recon Studio.*
+`;
+      downloadFile(md, `${d.domain}-executive-report.md`, "text/markdown");
+      showToast("Downloaded Markdown Recon Report");
+    }
+
+    function downloadHTMLReport() {
+      const html = document.getElementById("reportPreviewContainer").innerHTML;
+      const fullDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Recon Report - ${currentData.domain}</title><style>body{font-family:system-ui,sans-serif;margin:40px;line-height:1.6;color:#202124;}table{width:100%;border-collapse:collapse;margin:16px 0;}th,td{border:1px solid #dadce0;padding:10px 14px;text-align:left;}th{background:#f8f9fa;}</style></head><body>${html}</body></html>`;
+      downloadFile(fullDoc, `${currentData.domain}-report.html`, "text/html");
+      showToast("Downloaded HTML Recon Report");
+    }
+
+    function copySubdomainsList() {
+      const text = currentData.subdomains.map(s => s.fqdn).join("\n");
+      copyText(text);
+      showToast(`Copied ${currentData.subdomains.length} subdomains to clipboard`);
+    }
+
+    /* Utilities */
+    function downloadFile(content, filename, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Copied to clipboard!");
+      }).catch(() => {
+        showToast("Copied!");
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toastNotification");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => {
+        t.style.display = "none";
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

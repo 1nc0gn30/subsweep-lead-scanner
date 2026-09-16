@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "subsweep-lead-scanner"
+version = "1.0.0"
+description = "High-velocity OSINT subdomain reconnaissance, tech stack fingerprinting, business lead harvester, and MCP server in pure Python stdlib"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "SubSweep Recon Team", email = "recon@subsweep.dev"}
+]
+keywords = [
+    "osint",
+    "subdomain-enumeration",
+    "lead-generation",
+    "lead-harvester",
+    "mcp-server",
+    "model-context-protocol",
+    "reconnaissance",
+    "tech-fingerprint",
+    "port-scanner",
+    "security-audit"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.scripts]
+subsweep = "subsweep_lead_scanner.cli:main"
+lead-scanner = "subsweep_lead_scanner.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --strict-markers"

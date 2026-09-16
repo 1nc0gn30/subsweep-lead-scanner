@@ -1,0 +1,73 @@
+name: Release & Package Publishing
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      version_tag:
+        description: 'Release version tag (e.g. v2.4.0)'
+        required: false
+        default: 'v2.4.0'
+
+jobs:
+  build-and-release:
+    name: Build Distributions & Publish GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Build & Packaging Tools
+        run: |
+          python -m pip install --upgrade pip build twine wheel
+
+      - name: Build Source Distribution & Binary Wheels
+        run: |
+          python -m build --sdist --wheel --outdir dist/
+
+      - name: Verify Package Metadata
+        run: |
+          twine check dist/*
+
+      - name: Compute SHA-256 Checksums
+        id: checksums
+        run: |
+          cd dist
+          sha256sum * > SHA256SUMS.txt
+          echo "Generated SHA-256 Checksums:"
+          cat SHA256SUMS.txt
+          cd ..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+        with:
+          files: |
+            dist/*
+            public/index.html
+          generate_release_notes: true
+          body: |
+            ## SubSweep Recon & Lead Scanner Release
+
+            ### Distribution Artifacts & Checksums
+            The built source distribution (`.tar.gz`) and binary wheels (`.whl`) are attached below alongside the offline Google Material 3 Recon Studio UI (`public/index.html`).
+
+            All releases are verified with SHA-256 integrity signatures.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
