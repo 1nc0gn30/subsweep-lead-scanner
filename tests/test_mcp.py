@@ -109,7 +109,7 @@ class TestMCPServerProtocol:
         res = server.handle_message(req)
         assert res is not None
         tools = res["result"]["tools"]
-        assert len(tools) == 6
+        assert len(tools) == 7
         tool_names = [t["name"] for t in tools]
         assert "subsweep_enumerate_subdomains" in tool_names
         assert "subsweep_fingerprint_tech" in tool_names
@@ -117,6 +117,7 @@ class TestMCPServerProtocol:
         assert "subsweep_probe_ports" in tool_names
         assert "subsweep_full_audit" in tool_names
         assert "subsweep_get_diagnostics" in tool_names
+        assert "subsweep_audit_policies" in tool_names
 
         for t in tools:
             assert "name" in t

@@ -59,6 +59,14 @@ from .asn_intel import (
     lookup_ip_intelligence,
     batch_classify_ips,
 )
+from .policy_auditor import (
+    RobotsDirective,
+    RobotsReport,
+    SecurityTxtReport,
+    RobotsAuditor,
+    SecurityTxtAuditor,
+    audit_policy_endpoints,
+)
 from .mcp_server import (
     MCPServer,
     run_mcp_server,
@@ -135,4 +143,10 @@ __all__ = [
     "ASNIntelligenceReport",
     "lookup_ip_intelligence",
     "batch_classify_ips",
+    "RobotsDirective",
+    "RobotsReport",
+    "SecurityTxtReport",
+    "RobotsAuditor",
+    "SecurityTxtAuditor",
+    "audit_policy_endpoints",
 ]

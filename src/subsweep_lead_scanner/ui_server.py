@@ -892,6 +892,20 @@ class ReconRequestHandler(BaseHTTPRequestHandler):
             res = probe_ports(domain, ports=ports, timeout=timeout)
             self._send_json(res)
 
+        elif path == "/api/policies":
+            from .policy_auditor import audit_policy_endpoints
+            domain = body.get("domain", "")
+            robots_content = body.get("robots_content")
+            security_txt_content = body.get("security_txt_content")
+            timeout = float(body.get("timeout", 4.0))
+            res = audit_policy_endpoints(
+                domain_or_url=domain,
+                timeout=timeout,
+                robots_content=robots_content,
+                security_txt_content=security_txt_content,
+            )
+            self._send_json(res)
+
         elif path == "/api/export-csv":
             leads_data = body.get("leads", body)
             emails = leads_data.get("emails", [])

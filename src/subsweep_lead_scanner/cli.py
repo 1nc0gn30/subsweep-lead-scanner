@@ -409,6 +409,63 @@ def handle_mcp(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_policies(args: argparse.Namespace) -> int:
+    """Audit robots.txt and RFC 9116 security.txt endpoints."""
+    from .policy_auditor import audit_policy_endpoints
+    target = args.domain
+    timeout = getattr(args, "timeout", 4.0)
+
+    robots_content = None
+    if getattr(args, "robots_file", None):
+        with open(args.robots_file, "r", encoding="utf-8", errors="replace") as f:
+            robots_content = f.read()
+
+    sec_content = None
+    if getattr(args, "security_file", None):
+        with open(args.security_file, "r", encoding="utf-8", errors="replace") as f:
+            sec_content = f.read()
+
+    res = audit_policy_endpoints(
+        domain_or_url=target,
+        timeout=timeout,
+        robots_content=robots_content,
+        security_txt_content=sec_content,
+    )
+
+    if args.json:
+        print(json.dumps(res, indent=2))
+        return 0
+
+    print_banner()
+    print(_bold(_cyan(f"🤖 Policy & Administrative Endpoints Audit: {target}\n")))
+
+    robots = res["robots"]
+    rob_status = _green("EXISTS ✔") if robots["exists"] else _yellow("NOT FOUND ✖")
+    print(f"Robots.txt Status:          {rob_status}")
+    print(f"Robots Hygiene Score:       {_green(str(robots['hygiene_score']))}/100")
+    print(f"Sitemaps Discovered ({len(robots['sitemaps'])}):")
+    for sm in robots["sitemaps"][:5]:
+        print(f"  • {_cyan(sm)}")
+    if robots["sensitive_disallowed_paths"]:
+        print(_yellow(f"\n⚠️ Exposed Sensitive Disallowed Paths ({len(robots['sensitive_disallowed_paths'])}):"))
+        for p in robots["sensitive_disallowed_paths"][:8]:
+            print(f"  • {_red(p)}")
+
+    print()
+    sec = res["security_txt"]
+    sec_status = _green("RFC 9116 COMPLIANT ✔") if sec["rfc9116_compliant"] else _yellow("PARTIAL / NON-COMPLIANT")
+    print(f"Security.txt Status:        {sec_status}")
+    print(f"Compliance Score:           {_green(str(sec['compliance_score']))}/100")
+    if sec["expires"]:
+        exp_color = _red if sec["is_expired"] else _green
+        print(f"Policy Expiration:          {exp_color(sec['expires'])} {'(EXPIRED)' if sec['is_expired'] else ''}")
+    print(f"Harvested Security Contacts ({len(sec['contacts'])}):")
+    for c in sec["contacts"]:
+        print(f"  • {_green(c)}")
+
+    return 0
+
+
 def handle_serve(args: argparse.Namespace) -> int:
     """Start Material 3 Recon Studio Web UI."""
     host = args.host
@@ -504,8 +561,8 @@ def handle_test(args: argparse.Namespace) -> int:
     mcp = MCPServer()
     init_resp = mcp.handle_message({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}})
     tools_resp = mcp.handle_message({"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}})
-    if init_resp and init_resp.get("result", {}).get("serverInfo") and len(tools_resp.get("result", {}).get("tools", [])) == 6:
-        print(_green("  ✔ [PASS] MCP Protocol Dispatcher (6 Tools Registered)"))
+    if init_resp and init_resp.get("result", {}).get("serverInfo") and len(tools_resp.get("result", {}).get("tools", [])) == 7:
+        print(_green("  ✔ [PASS] MCP Protocol Dispatcher (7 Tools Registered)"))
         tests_passed += 1
     else:
         print(_red("  ✖ [FAIL] MCP Protocol Dispatcher validation failed"))
@@ -594,6 +651,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_ports.add_argument("--no-banner", action="store_true", help="Skip banner grabbing")
     p_ports.add_argument("--json", action="store_true", help="Output JSON")
 
+    # policies
+    p_pol = subparsers.add_parser("policies", help="Audit robots.txt and RFC 9116 security.txt endpoints")
+    p_pol.add_argument("domain", help="Target domain or URL")
+    p_pol.add_argument("--robots-file", help="Local robots.txt file to parse")
+    p_pol.add_argument("--security-file", help="Local security.txt file to parse")
+    p_pol.add_argument("--timeout", type=float, default=4.0, help="Request timeout")
+    p_pol.add_argument("--json", action="store_true", help="Output JSON")
+
     # mcp
     p_mcp = subparsers.add_parser("mcp", help="Run stdio MCP server or export client configurations")
     p_mcp.add_argument("--tools", action="store_true", help="List registered MCP tools manifest as JSON")
@@ -634,6 +699,7 @@ def main(args: Optional[List[str]] = None) -> int:
         "tech": handle_tech,
         "leads": handle_leads,
         "ports": handle_ports,
+        "policies": handle_policies,
         "mcp": handle_mcp,
         "serve": handle_serve,
         "platform": handle_platform,

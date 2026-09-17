@@ -1103,7 +1103,34 @@ MCP_TOOLS_MANIFEST = [
                 }
             }
         }
-    }
+    },
+    {
+        "name": "subsweep_audit_policies",
+        "description": "Audit robots.txt (sitemaps, sensitive disallow rules, crawl delays) and RFC 9116 security.txt (security contacts, bug bounties).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string",
+                    "description": "Target domain or URL to audit for robots.txt and security.txt",
+                },
+                "robots_content": {
+                    "type": "string",
+                    "description": "Optional raw robots.txt content to parse directly",
+                },
+                "security_txt_content": {
+                    "type": "string",
+                    "description": "Optional raw security.txt content to parse directly",
+                },
+                "timeout": {
+                    "type": "number",
+                    "description": "HTTP request timeout in seconds",
+                    "default": 4.0,
+                },
+            },
+            "required": ["domain"],
+        },
+    },
 ]
 
 
@@ -1154,6 +1181,19 @@ class MCPServer:
         elif tool_name == "subsweep_get_diagnostics":
             test_domain = arguments.get("test_domain", "example.com")
             return get_diagnostics(test_domain=test_domain)
+
+        elif tool_name == "subsweep_audit_policies":
+            from .policy_auditor import audit_policy_endpoints
+            domain = arguments.get("domain", "")
+            robots_content = arguments.get("robots_content")
+            security_txt_content = arguments.get("security_txt_content")
+            timeout = float(arguments.get("timeout", 4.0))
+            return audit_policy_endpoints(
+                domain_or_url=domain,
+                timeout=timeout,
+                robots_content=robots_content,
+                security_txt_content=security_txt_content,
+            )
 
         else:
             raise ValueError(f"Unknown MCP tool: {tool_name}")
