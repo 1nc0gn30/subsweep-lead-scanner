@@ -1,14 +1,14 @@
-# SubSweep | Google Recon & Lead Studio
+# SubSweep Studio | OSINT Recon & Lead Intelligence
 
 <p align="center">
-  <img src="https://img.shields.io/badge/SubSweep-Enterprise%20OSINT-1a73e8?style=for-the-badge&logo=google&logoColor=white" alt="SubSweep Logo" />
+  <img src="https://img.shields.io/badge/SubSweep%20Studio-Enterprise%20OSINT-1a73e8?style=for-the-badge&logoColor=white" alt="SubSweep Studio Logo" />
 </p>
 
 <p align="center">
   <a href="https://github.com/subsweep-lead-scanner/subsweep-lead-scanner/actions"><img src="https://img.shields.io/badge/CI-15%20Jobs%20Passing-1e8e3e?style=flat-square&logo=github-actions&logoColor=white" alt="CI Status" /></a>
   <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-1a73e8?style=flat-square&logo=python&logoColor=white" alt="Python Versions" /></a>
   <a href="./docs/MCP_GUIDE.md"><img src="https://img.shields.io/badge/MCP-Standard%20v2024.11-9334e6?style=flat-square&logo=anthropic&logoColor=white" alt="MCP Ready" /></a>
-  <a href="./public/index.html"><img src="https://img.shields.io/badge/UI-Google%20Material%203-f9ab00?style=flat-square&logoColor=white" alt="Material 3" /></a>
+  <a href="./public/index.html"><img src="https://img.shields.io/badge/UI-Material%203%20Design-f9ab00?style=flat-square&logoColor=white" alt="Material 3 Design" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-gray?style=flat-square" alt="MIT License" /></a>
 </p>
 
@@ -16,9 +16,9 @@
 
 ## 🌟 Executive Overview
 
-**SubSweep** is an all-in-one OSINT reconnaissance suite, perimeter port scanner, technology stack fingerprinter, and B2B decision-maker lead intelligence engine.
+**SubSweep Studio** is an all-in-one OSINT reconnaissance suite, perimeter port scanner, technology stack fingerprinter, and B2B decision-maker lead intelligence engine.
 
-Designed for security researchers, DevSecOps teams, and B2B growth operators, SubSweep pairs a high-performance Python engine with a **Google Material 3 Light Mode Studio UI** and native **Model Context Protocol (MCP)** tool servers for AI assistants (Claude, Cursor, Cline, Zed).
+Designed for security researchers, DevSecOps teams, and B2B growth operators, SubSweep Studio pairs a high-performance Python engine with a **Material 3 influenced Studio UI** and native **Model Context Protocol (MCP)** tool servers for AI assistants (Claude, Cursor, Cline, Zed).
 
 ---
 
@@ -37,8 +37,8 @@ Designed for security researchers, DevSecOps teams, and B2B growth operators, Su
    - Rapid, non-intrusive TCP port auditing (`22`, `80`, `443`, `3306`, `5432`, `8443`) with service banner grabbing and risk classifications.
 5. 🤖 **Native Model Context Protocol (MCP) Server:**
    - Zero-configuration stdio tool server empowering AI agents to run live reconnaissance and lead research directly from chat.
-6. 🎨 **Google Material 3 Recon Studio UI:**
-   - 100% offline-ready, single-file browser app (`public/index.html`) with zero tracking, dynamic score dials, interactive tree visualizer, and 1-click CSV/JSON/Markdown exports.
+6. 🎨 **Material 3 Influenced Recon Studio UI:**
+   - 100% offline-ready, single-file browser app (`public/index.html`, design influenced by Google Material 3 tokens) with zero tracking, dynamic score dials, interactive tree visualizer, and 1-click CSV/JSON/Markdown exports.
 
 ---
 
@@ -60,7 +60,7 @@ flowchart TD
     subgraph Interfaces ["Multi-Channel Interfaces"]
         Merge --> CLI["CLI Terminal Engine\n(subsweep recon)"]
         Merge --> MCP["MCP AI Agent Server\n(Claude / Cursor / Zed)"]
-        Merge --> UI["Google Material 3 Studio\n(public/index.html)"]
+        Merge --> UI["Material 3 Recon Studio\n(public/index.html)"]
         Merge --> Exporters["Executive Intelligence Bundles\n(CSV / JSON / Markdown)"]
     end
 ```
@@ -179,7 +179,7 @@ subsweep-lead-scanner/
 │   ├── mcp-clients/             # Claude, Cursor, Cline, Zed JSON configs
 │   └── README.md                # Examples index & quickstart
 ├── public/
-│   └── index.html               # Google Material 3 Light Mode Recon Studio UI
+│   └── index.html               # Material 3 Light Mode Recon Studio UI (Google M3 token influenced)
 ├── src/
 │   └── subsweep_lead_scanner/   # Core Python package engine
 ├── tests/
