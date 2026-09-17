@@ -54,6 +54,11 @@ from .port_prober import (
     PortProber,
     PortResult,
 )
+from .asn_intel import (
+    ASNIntelligenceReport,
+    lookup_ip_intelligence,
+    batch_classify_ips,
+)
 from .mcp_server import (
     MCPServer,
     run_mcp_server,
@@ -127,4 +132,7 @@ __all__ = [
     "create_ui_server",
     "run_ui_server",
     "main",
+    "ASNIntelligenceReport",
+    "lookup_ip_intelligence",
+    "batch_classify_ips",
 ]
