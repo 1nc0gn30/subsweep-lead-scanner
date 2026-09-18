@@ -141,6 +141,29 @@ class TestUIServerEndpoints:
         assert "leads" in data
         assert "ports" in data
 
+    def test_post_email(self, live_server):
+        """Test POST /api/email."""
+        payload = {"domain": "example.com", "timeout": 0.5}
+        status, headers, body = _http_request(f"{live_server}/api/email", method="POST", data=payload)
+        assert status == 200
+        data = json.loads(body.decode("utf-8"))
+        assert "domain" in data
+        assert "grade" in data
+        assert "security_score" in data
+
+    def test_post_takeovers(self, live_server):
+        """Test POST /api/takeovers."""
+        payload = {
+            "domain": "example.com",
+            "subdomains": [{"subdomain": "blog.example.com", "cname": "deadsite.github.io"}],
+            "verify_http": False,
+        }
+        status, headers, body = _http_request(f"{live_server}/api/takeovers", method="POST", data=payload)
+        assert status == 200
+        data = json.loads(body.decode("utf-8"))
+        assert data["domain"] == "example.com"
+        assert len(data["findings"]) >= 1
+
     def test_post_export_csv(self, live_server):
         """Test POST /api/export-csv returns CSV attachment."""
         sample_lead_data = {

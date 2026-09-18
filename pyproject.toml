@@ -22,7 +22,13 @@ keywords = [
     "reconnaissance",
     "tech-fingerprint",
     "port-scanner",
-    "security-audit"
+    "security-audit",
+    "email-security",
+    "spf",
+    "dmarc",
+    "dkim",
+    "subdomain-takeover",
+    "cname-dangling"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

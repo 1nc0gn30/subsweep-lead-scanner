@@ -906,6 +906,27 @@ class ReconRequestHandler(BaseHTTPRequestHandler):
             )
             self._send_json(res)
 
+        elif path == "/api/email":
+            from .email_security_auditor import EmailSecurityAuditor
+            domain = body.get("domain", "")
+            timeout = float(body.get("timeout", 5.0))
+            auditor = EmailSecurityAuditor(timeout=timeout)
+            report = auditor.audit_domain(domain)
+            self._send_json(report.to_dict())
+
+        elif path == "/api/takeovers":
+            from .takeover_detector import SubdomainTakeoverDetector
+            domain = body.get("domain", "")
+            records = body.get("records") or body.get("subdomains") or []
+            verify_http = bool(body.get("verify_http", False))
+            timeout = float(body.get("timeout", 4.0))
+            detector = SubdomainTakeoverDetector(http_timeout=timeout)
+            if not records and domain:
+                discovery = enumerate_subdomains(domain, passive_only=True, timeout=timeout)
+                records = discovery.get("subdomains", [])
+            report = detector.scan_records(domain, records, verify_http=verify_http)
+            self._send_json(report.to_dict())
+
         elif path == "/api/export-csv":
             leads_data = body.get("leads", body)
             emails = leads_data.get("emails", [])

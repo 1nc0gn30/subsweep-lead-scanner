@@ -67,6 +67,19 @@ from .policy_auditor import (
     SecurityTxtAuditor,
     audit_policy_endpoints,
 )
+from .email_security_auditor import (
+    EmailSecurityAuditor,
+    EmailSecurityReport,
+    SPFAudit,
+    DMARCAudit,
+    DKIMAudit,
+    MXRecord,
+)
+from .takeover_detector import (
+    SubdomainTakeoverDetector,
+    TakeoverFinding,
+    TakeoverScanReport,
+)
 from .mcp_server import (
     MCPServer,
     run_mcp_server,
@@ -149,4 +162,13 @@ __all__ = [
     "RobotsAuditor",
     "SecurityTxtAuditor",
     "audit_policy_endpoints",
+    "EmailSecurityAuditor",
+    "EmailSecurityReport",
+    "SPFAudit",
+    "DMARCAudit",
+    "DKIMAudit",
+    "MXRecord",
+    "SubdomainTakeoverDetector",
+    "TakeoverFinding",
+    "TakeoverScanReport",
 ]

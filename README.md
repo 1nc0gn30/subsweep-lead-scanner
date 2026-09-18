@@ -33,11 +33,19 @@ Designed for security researchers, DevSecOps teams, and B2B growth operators, Su
 3. 🔬 **Deep Technology Stack Fingerprinting:**
    - Detects frontend frameworks (React, Next.js, Vue, Angular), cloud CDNs (Cloudflare, Fastly, CloudFront), and CMS engines (WordPress, Webflow, Shopify).
    - Audits essential HTTP security headers (`HSTS`, `CSP`, `X-Frame-Options`).
-4. 🔌 **Perimeter Port & Service Matrix:**
+4. ✉️ **Email Deliverability & Anti-Spoofing Auditor (RFC 7208 / 7489):**
+   - SPF mechanism validation with 10-DNS-lookup RFC limit enforcement.
+   - DMARC enforcement level (`p=reject`, `p=quarantine`, `p=none`) and reporting addresses (`rua`/`ruf`).
+   - DKIM selector discovery and MX provider fingerprinting (Google Workspace, Microsoft 365, Proton, Fastmail, Postmark).
+   - Actionable copy-paste DNS TXT record recommendations.
+5. 🏴 **Subdomain Takeover & CNAME Dangling Pointer Detector:**
+   - Detects dangling CNAME records across 20+ SaaS services (GitHub Pages, AWS S3, Heroku, Netlify, Vercel, Shopify, Fastly, Ghost, Surge.sh, Zendesk, WordPress, HubSpot, Fly.io).
+   - Live HTTP response body fingerprint verification confirming vulnerability status.
+6. 🔌 **Perimeter Port & Service Matrix:**
    - Rapid, non-intrusive TCP port auditing (`22`, `80`, `443`, `3306`, `5432`, `8443`) with service banner grabbing and risk classifications.
-5. 🤖 **Native Model Context Protocol (MCP) Server:**
-   - Zero-configuration stdio tool server empowering AI agents to run live reconnaissance and lead research directly from chat.
-6. 🎨 **Material 3 Influenced Recon Studio UI:**
+7. 🤖 **Native Model Context Protocol (MCP) Server (9 Tools):**
+   - Zero-configuration stdio tool server empowering AI agents to run live reconnaissance, email deliverability audits, takeover detection, and lead research directly from chat.
+8. 🎨 **Material 3 Influenced Recon Studio UI:**
    - 100% offline-ready, single-file browser app (`public/index.html`, design influenced by Google Material 3 tokens) with zero tracking, dynamic score dials, interactive tree visualizer, and 1-click CSV/JSON/Markdown exports.
 
 ---
@@ -103,7 +111,25 @@ subsweep leads acme-cloud.io --min-score 80 --export leads.csv
 subsweep leads acme-cloud.io --exec-only --format json
 ```
 
-### 3. Launch Material 3 Recon Studio Web UI
+### 3. Email Security & Anti-Spoofing Audit (SPF/DMARC/DKIM/MX)
+```bash
+# Run RFC compliance audit and print terminal card
+subsweep email acme-cloud.io
+
+# Export email posture report to JSON
+subsweep email acme-cloud.io --format json
+```
+
+### 4. Subdomain Takeover & Dangling CNAME Detection
+```bash
+# Scan subdomains for dangling CNAME pointers to 20+ SaaS providers
+subsweep takeovers acme-cloud.io
+
+# Verify takeover fingerprints with live HTTP response probes
+subsweep takeovers acme-cloud.io --verify-http --format json
+```
+
+### 5. Launch Material 3 Recon Studio Web UI
 Open `public/index.html` in any web browser:
 ```bash
 # Linux

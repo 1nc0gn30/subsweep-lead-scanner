@@ -137,7 +137,7 @@ class TestCLIExecution:
         assert code == 0
         captured = capsys.readouterr().out
         tools = json.loads(captured)
-        assert len(tools) == 7
+        assert len(tools) == 9
 
     def test_cli_mcp_config(self, capsys):
         """Test 'subsweep mcp --config claude'."""

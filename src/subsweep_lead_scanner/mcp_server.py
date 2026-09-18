@@ -25,6 +25,9 @@ import urllib.parse
 import urllib.request
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+from .email_security_auditor import EmailSecurityAuditor
+from .takeover_detector import SubdomainTakeoverDetector
+
 __version__ = "1.0.0"
 
 # Default Curated High-Value Subdomains for Enumeration
@@ -1131,6 +1134,56 @@ MCP_TOOLS_MANIFEST = [
             "required": ["domain"],
         },
     },
+    {
+        "name": "subsweep_audit_email_security",
+        "description": "Audit email security posture (SPF RFC 7208 lookup ceilings and qualifiers, DMARC RFC 7489 enforcement, DKIM selector validation, and MX mail provider fingerprinting) with a 0-100 deliverability score.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string",
+                    "description": "Target domain to audit (e.g. 'example.com')",
+                },
+                "timeout": {
+                    "type": "number",
+                    "description": "DoH query timeout in seconds",
+                    "default": 3.0,
+                },
+            },
+            "required": ["domain"],
+        },
+    },
+    {
+        "name": "subsweep_detect_takeovers",
+        "description": "Detect subdomain takeover risks and dangling CNAME records across 20+ cloud/SaaS hosts (GitHub Pages, AWS S3, Netlify, Vercel, Heroku, Shopify, etc.).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string",
+                    "description": "Target apex domain",
+                },
+                "subdomains": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "subdomain": {"type": "string"},
+                            "cnames": {"type": "array", "items": {"type": "string"}},
+                        },
+                        "required": ["subdomain"],
+                    },
+                    "description": "List of discovered subdomain records with CNAMEs",
+                },
+                "verify_http": {
+                    "type": "boolean",
+                    "description": "Whether to perform live HTTP requests to verify error body signatures",
+                    "default": False,
+                },
+            },
+            "required": ["domain", "subdomains"],
+        },
+    },
 ]
 
 
@@ -1195,8 +1248,25 @@ class MCPServer:
                 security_txt_content=security_txt_content,
             )
 
+        elif tool_name == "subsweep_audit_email_security":
+            domain = arguments.get("domain", "")
+            timeout = float(arguments.get("timeout", 3.0))
+            auditor = EmailSecurityAuditor(doh_timeout=timeout)
+            report = auditor.audit_domain(domain)
+            return report.to_dict()
+
+        elif tool_name == "subsweep_detect_takeovers":
+            domain = arguments.get("domain", "")
+            subdomains = arguments.get("subdomains", [])
+            verify_http = bool(arguments.get("verify_http", False))
+            detector = SubdomainTakeoverDetector()
+            report = detector.scan_records(domain, subdomains, verify_http=verify_http)
+            return report.to_dict()
+
         else:
             raise ValueError(f"Unknown MCP tool: {tool_name}")
+
+    call_tool = execute_tool
 
     def handle_message(self, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Process a single JSON-RPC request and return response dict."""

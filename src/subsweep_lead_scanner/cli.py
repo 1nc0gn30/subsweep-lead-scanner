@@ -33,6 +33,9 @@ from .mcp_server import (
     __version__,
 )
 from .ui_server import run_ui_server
+from .subdomain_finder import SubdomainEnumerator
+from .email_security_auditor import EmailSecurityAuditor
+from .takeover_detector import SubdomainTakeoverDetector
 
 # ANSI Color formatting utilities
 USE_COLOR = sys.stdout.isatty() and not os.environ.get("NO_COLOR")
@@ -466,6 +469,91 @@ def handle_policies(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_email(args: argparse.Namespace) -> int:
+    """Audit email security posture (SPF, DMARC, DKIM, MX)."""
+    domain = args.domain
+    timeout = getattr(args, "timeout", 3.0)
+    auditor = EmailSecurityAuditor(doh_timeout=timeout)
+    report = auditor.audit_domain(domain)
+
+    if getattr(args, "format", "text") == "json" or getattr(args, "json", False):
+        print(json.dumps(report.to_dict(), indent=2))
+        return 0
+
+    print_banner()
+    print(_bold(_cyan(f"✉️ Email Deliverability & Anti-Spoofing Security Audit: {domain}\n")))
+    print(f"Overall Security Score:     {_render_score_bar(report.security_score)} (Grade {_bold(report.grade)})")
+    print(f"Primary Email Provider:     {_cyan(report.primary_email_provider)}")
+    spoof_txt = _red("YES - VULNERABLE") if report.spoofing_vulnerable else _green("NO - PROTECTED")
+    print(f"Spoofing Risk:              {spoof_txt}")
+    print()
+    print(_bold("SPF Evaluation (RFC 7208):"))
+    spf_stat = _green(f"VALID ({report.spf.qualifier_security})") if report.spf.is_valid else _red("INSECURE / MISSING")
+    print(f"  Record:                   {report.spf.raw_record or 'None'}")
+    print(f"  Qualifier:                {report.spf.all_qualifier} ({report.spf.qualifier_security})")
+    print(f"  DNS Lookups:              {report.spf.lookup_count}/10 max")
+    print()
+    print(_bold("DMARC Policy (RFC 7489):"))
+    dmarc_stat = _green(report.dmarc.enforcement_level) if "REJECT" in report.dmarc.enforcement_level else _yellow(report.dmarc.enforcement_level)
+    print(f"  Record:                   {report.dmarc.raw_record or 'None'}")
+    print(f"  Policy:                   {report.dmarc.policy} (Enforcement: {dmarc_stat})")
+    print(f"  RUA Reporting:            {', '.join(report.dmarc.rua_addresses) if report.dmarc.rua_addresses else 'None'}")
+    print()
+    print(_bold(f"DKIM Discovered Selectors ({len(report.dkim.discovered_selectors)}):"))
+    for sel in report.dkim.discovered_selectors:
+        print(f"  • {sel}._domainkey.{domain}")
+    if report.actionable_remediations:
+        print(_yellow("\nActionable Recommendations:"))
+        for r in report.actionable_remediations:
+            print(f"  • {r}")
+    print()
+    return 0
+
+
+def handle_takeovers(args: argparse.Namespace) -> int:
+    """Detect subdomain takeover risks and dangling CNAME records."""
+    domain = args.domain
+    subdomains_data: List[Dict[str, Any]] = []
+
+    if getattr(args, "subdomains_file", None):
+        with open(args.subdomains_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                subdomains_data = data
+            elif isinstance(data, dict) and "subdomains" in data:
+                subdomains_data = data["subdomains"]
+    else:
+        enumerator = SubdomainEnumerator()
+        enum_res = enumerator.enumerate(domain, timeout=3.0)
+        subdomains_data = [r.to_dict() for r in enum_res.results]
+
+    detector = SubdomainTakeoverDetector()
+    verify_http = getattr(args, "verify_http", False)
+    report = detector.scan_records(domain, subdomains_data, verify_http=verify_http)
+
+    if getattr(args, "format", "text") == "json" or getattr(args, "json", False):
+        print(json.dumps(report.to_dict(), indent=2))
+        return 0
+
+    print_banner()
+    print(_bold(_cyan(f"🏴 Subdomain Takeover & CNAME Dangling Pointer Detector: {domain}\n")))
+    print(f"Total Subdomains Checked:   {report.total_checked}")
+    print(f"CNAME Records Analyzed:     {report.cnames_analyzed}")
+    vuln_color = _red if report.vulnerabilities_found > 0 else _green
+    print(f"Vulnerabilities Detected:   {vuln_color(str(report.vulnerabilities_found))}")
+    print()
+    if report.findings:
+        for f in report.findings:
+            sev_col = _red if f.severity == "CRITICAL" else _yellow
+            print(f"  • {sev_col(f'[{f.status}]')} {_bold(f.subdomain)} -> {f.cname}")
+            print(f"    Service: {f.service} | Severity: {sev_col(f.severity)}")
+            print(f"    Remediation: {f.remediation}")
+    else:
+        print(_green("✔ No dangling CNAME records or takeover risks identified."))
+    print()
+    return 0
+
+
 def handle_serve(args: argparse.Namespace) -> int:
     """Start Material 3 Recon Studio Web UI."""
     host = args.host
@@ -561,8 +649,9 @@ def handle_test(args: argparse.Namespace) -> int:
     mcp = MCPServer()
     init_resp = mcp.handle_message({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}})
     tools_resp = mcp.handle_message({"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}})
-    if init_resp and init_resp.get("result", {}).get("serverInfo") and len(tools_resp.get("result", {}).get("tools", [])) == 7:
-        print(_green("  ✔ [PASS] MCP Protocol Dispatcher (7 Tools Registered)"))
+    tools_count = len(tools_resp.get("result", {}).get("tools", []))
+    if init_resp and init_resp.get("result", {}).get("serverInfo") and tools_count >= 7:
+        print(_green(f"  ✔ [PASS] MCP Protocol Dispatcher ({tools_count} Tools Registered)"))
         tests_passed += 1
     else:
         print(_red("  ✖ [FAIL] MCP Protocol Dispatcher validation failed"))
@@ -659,6 +748,21 @@ def build_parser() -> argparse.ArgumentParser:
     p_pol.add_argument("--timeout", type=float, default=4.0, help="Request timeout")
     p_pol.add_argument("--json", action="store_true", help="Output JSON")
 
+    # email / email-sec
+    p_em = subparsers.add_parser("email", aliases=["email-sec"], help="Audit email deliverability, SPF lookup limit, DMARC policy, and DKIM")
+    p_em.add_argument("domain", help="Target domain (e.g. example.com)")
+    p_em.add_argument("--timeout", type=float, default=3.0, help="DNS query timeout in seconds")
+    p_em.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
+    p_em.add_argument("--json", action="store_true", help="Output JSON")
+
+    # takeovers / takeover
+    p_to = subparsers.add_parser("takeovers", aliases=["takeover"], help="Detect dangling CNAME records and subdomain takeover vulnerabilities")
+    p_to.add_argument("domain", help="Target domain")
+    p_to.add_argument("--subdomains-file", help="JSON file containing discovered subdomains")
+    p_to.add_argument("--verify-http", action="store_true", help="Perform live HTTP verification of error fingerprints")
+    p_to.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
+    p_to.add_argument("--json", action="store_true", help="Output JSON")
+
     # mcp
     p_mcp = subparsers.add_parser("mcp", help="Run stdio MCP server or export client configurations")
     p_mcp.add_argument("--tools", action="store_true", help="List registered MCP tools manifest as JSON")
@@ -700,6 +804,10 @@ def main(args: Optional[List[str]] = None) -> int:
         "leads": handle_leads,
         "ports": handle_ports,
         "policies": handle_policies,
+        "email": handle_email,
+        "email-sec": handle_email,
+        "takeovers": handle_takeovers,
+        "takeover": handle_takeovers,
         "mcp": handle_mcp,
         "serve": handle_serve,
         "platform": handle_platform,
