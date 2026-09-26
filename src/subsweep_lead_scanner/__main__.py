@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Main executable entry point for subsweep-lead-scanner module.
 Allows invocation via: python3 -m subsweep_lead_scanner <args>

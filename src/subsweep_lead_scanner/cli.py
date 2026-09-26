@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Command Line Interface (CLI) for SubSweep Lead Scanner & Recon Studio
 =====================================================================
