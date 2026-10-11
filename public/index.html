@@ -13,12 +13,20 @@
   <meta property="og:url" content="https://subsweep.nullai.tech">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://subsweep.nullai.tech/assets/banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SubSweep Recon Studio banner">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@1nc0gn30">
   <meta name="twitter:creator" content="@1nc0gn30">
+  <meta name="twitter:title" content="SubSweep Recon Studio | OSINT Reconnaissance & Lead Intelligence">
+  <meta name="twitter:description" content="High-precision in-browser OSINT recon, passive DNS discovery, tech stack fingerprinting, and executive lead intelligence with zero cloud egress.">
   <meta name="twitter:image" content="https://subsweep.nullai.tech/assets/banner.png">
+  <meta name="twitter:image:alt" content="SubSweep Recon Studio banner">
   <link rel="canonical" href="https://subsweep.nullai.tech">
-  <link rel="icon" type="image/png" href="/assets/icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon.png">
+  <link rel="apple-touch-icon" href="/assets/icon.png">
 
   <!-- DePay Web3 Solana Payment Widget -->
   <script src="https://integrate.depay.com/widgets/v13.js" defer></script>
@@ -1220,7 +1228,8 @@
 <!-- App Header -->
   <header class="app-bar">
     <div class="header-inner">
-      <a href="#" class="brand" title="SubSweep Recon Studio">
+      <a href="#" class="brand" title="SubSweep Recon Studio" style="display: flex; align-items: center; gap: 8px;">
+        <img src="/assets/icon.png" alt="SubSweep Logo" class="brand-icon" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover; box-shadow: 0 0 10px rgba(26,115,232,0.4);">
         <div class="google-dots">
           <div class="dot dot-blue"></div>
           <div class="dot dot-red"></div>
@@ -1229,7 +1238,7 @@
         </div>
         <div class="brand-title">
           SubSweep
-          <span class="badge-pro">Recon Studio M3</span>
+          <span class="badge-pro">v2.5.0</span>
         </div>
       </a>
 
@@ -1251,9 +1260,9 @@
 
       <!-- Quick Preset Selector & Actions -->
       <div class="header-actions">
-        <div class="badge-status" id="pro-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--md-shape-corner-full); background: rgba(26,115,232,0.1); border: 1px solid rgba(26,115,232,0.3); font-size: 11px; font-weight: 600; color: var(--google-blue);">
-          <span style="width: 7px; height: 7px; border-radius: 50%; background: #1e8e3e; display: inline-block;"></span>
-          <span id="licenseBadgeText">FREE TIER</span>
+        <div class="badge-status" id="pro-badge" onclick="openLicenseModal()" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--md-shape-corner-full); background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); font-size: 11px; font-weight: 700; color: #ef4444; cursor: pointer;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #ef4444; display: inline-block;"></span>
+          <span id="licenseBadge">⚡ FREE TIER</span>
         </div>
         <button class="btn-action-sm" id="activateKeyBtn" onclick="openLicenseModal()" style="border: 1px solid var(--md-sys-color-outline); font-size: 12px; padding: 6px 12px; cursor: pointer; border-radius: 4px; background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface);">
           🔑 UNLOCK PRO
@@ -2572,7 +2581,12 @@
         openLicenseModal();
         return;
       }
-      const bundle = JSON.stringify(currentData, null, 2);
+      const bundle = JSON.stringify({
+        tool: "subsweep-lead-scanner",
+        version: "2.5.0",
+        timestamp: new Date().toISOString(),
+        ...currentData
+      }, null, 2);
       downloadFile(bundle, `${currentData.domain}-recon-intelligence-bundle.json`, "application/json");
       showToast(`Exported full intelligence bundle for ${currentData.domain}`);
     }
@@ -2642,36 +2656,42 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
     }
 
     /* License Management & Paywall */
+    function isProUser() {
+      return localStorage.getItem('subsweep_licensed') === 'true' ||
+             localStorage.getItem('subsweep-lead-scanner_pro_licensed') === 'true';
+    }
+
     function checkLicense() {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === '1') {
+      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === '1' || urlParams.get('pro') === 'true') {
         localStorage.setItem('subsweep_licensed', 'true');
+        localStorage.setItem('subsweep-lead-scanner_pro_licensed', 'true');
       }
-      isProLicensed = localStorage.getItem('subsweep_licensed') === 'true';
+      isProLicensed = isProUser();
 
       const reportWrapper = document.getElementById('reportWrapper');
       const proBadge = document.getElementById('pro-badge');
-      const licenseBadgeText = document.getElementById('licenseBadgeText');
+      const licenseBadge = document.getElementById('licenseBadge') || document.getElementById('licenseBadgeText');
       const salesBanner = document.getElementById('salesBanner');
       const activateKeyBtn = document.getElementById('activateKeyBtn');
 
       if (isProLicensed) {
         if (reportWrapper) reportWrapper.classList.remove('paywall-locked');
-        if (licenseBadgeText) licenseBadgeText.textContent = '⭐ PRO ACTIVE';
+        if (licenseBadge) licenseBadge.textContent = '⭐ PRO ACTIVE';
         if (proBadge) {
           proBadge.style.background = 'rgba(212, 175, 55, 0.2)';
-          proBadge.style.color = '#F5E6AB';
+          proBadge.style.color = '#ffd700';
           proBadge.style.borderColor = 'rgba(212, 175, 55, 0.4)';
         }
         if (salesBanner) salesBanner.style.display = 'none';
         if (activateKeyBtn) activateKeyBtn.style.display = 'none';
       } else {
         if (reportWrapper) reportWrapper.classList.add('paywall-locked');
-        if (licenseBadgeText) licenseBadgeText.textContent = 'FREE TIER';
+        if (licenseBadge) licenseBadge.textContent = '⚡ FREE TIER';
         if (proBadge) {
-          proBadge.style.background = 'rgba(26,115,232,0.1)';
-          proBadge.style.color = 'var(--google-blue)';
-          proBadge.style.borderColor = 'rgba(26,115,232,0.3)';
+          proBadge.style.background = 'rgba(239, 68, 68, 0.1)';
+          proBadge.style.color = '#ef4444';
+          proBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
         }
         if (salesBanner) salesBanner.style.display = 'flex';
         if (activateKeyBtn) activateKeyBtn.style.display = 'inline-flex';
@@ -2686,15 +2706,22 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
       document.getElementById('licenseModal').classList.remove('open');
     }
 
-    function activateLicenseKey() {
-      const val = document.getElementById('licenseInput').value.trim();
-      if (val.length > 3 || val.toUpperCase() === 'SUBSWEEP-PRO-2026' || val.includes('@')) {
+    function activateLicenseKey(providedKey) {
+      let val = providedKey;
+      if (!val) {
+        const input = document.getElementById('licenseInput');
+        val = input ? input.value.trim() : '';
+      }
+      if (val && (val.length > 3 || val.toUpperCase() === 'SUBSWEEP-PRO-2026' || val.includes('@'))) {
         localStorage.setItem('subsweep_licensed', 'true');
+        localStorage.setItem('subsweep-lead-scanner_pro_licensed', 'true');
         checkLicense();
         closeLicenseModal();
         showToast('⭐ SubSweep Pro successfully activated! All exports unlocked.');
       } else {
-        alert('Please enter a valid receipt email or license key.');
+        if (!providedKey && typeof alert === 'function') {
+          try { alert('Please enter a valid receipt email or license key.'); } catch(e) {}
+        }
       }
     }
 
@@ -2773,11 +2800,11 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
         <label style="display: block; font-family: var(--font-family-mono); font-size: 0.75rem; font-weight: 600; color: var(--google-blue); margin-bottom: 0.4rem;">
           LICENSE KEY OR STRIPE EMAIL:
         </label>
-        <input type="text" id="licenseInput" placeholder="pro_live_... or your@email.com" class="search-input" style="width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-shape-corner-xs); padding: 8px 12px; font-size: 0.95rem; min-height: 44px; background: var(--md-sys-color-surface);">
+        <input type="text" id="licenseInput" placeholder="SUBSWEEP-PRO-2026 or receipt email" class="search-input" style="width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-shape-corner-xs); padding: 8px 12px; font-size: 0.95rem; min-height: 44px; background: var(--md-sys-color-surface);">
       </div>
 
       <div style="display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-        <button class="btn-checkout btn-stripe" onclick="activateLicenseKey()" style="flex: 1; justify-content: center; min-width: 140px;">
+        <button class="btn-checkout btn-stripe" id="btnActivateKey" onclick="activateLicenseKey(document.getElementById('licenseInput').value)" style="flex: 1; justify-content: center; min-width: 140px;">
           Activate Pro ⚡
         </button>
         <button class="btn-checkout btn-solana" onclick="activateDemoLicense()" style="flex: 1; justify-content: center; min-width: 140px;">
