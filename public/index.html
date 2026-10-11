@@ -293,7 +293,6 @@
     .report-wrapper.paywall-locked .report-preview-sheet {
       filter: blur(6px);
       user-select: none;
-      pointer-events: none;
     }
 
     .paywall-overlay {
@@ -1285,7 +1284,7 @@
   <main class="main-content">
 
     <!-- Founding Member Sales Funnel Banner -->
-    <div class="sales-banner" id="salesBanner">
+    <div class="sales-banner" id="salesBanner" data-alias="founding-offer-banner">
       <div class="sales-content">
         <div class="sales-badge">
           ⭐ FOUNDING MEMBER ACCESS · 76% DISCOUNT
@@ -1304,7 +1303,7 @@
         <button onclick="openDePayCheckout(event)" class="btn-checkout btn-solana">
           ◎ Pay with Solana
         </button>
-        <button onclick="openLicenseModal()" class="btn-license-inline">
+        <button id="btn-paywall-key" data-alias="btnActivateBanner" onclick="openLicenseModal()" class="btn-license-inline">
           Already have a key? Activate
         </button>
       </div>
@@ -2663,9 +2662,13 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
 
     function checkLicense() {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === '1' || urlParams.get('pro') === 'true') {
+      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === '1' || urlParams.get('pro') === 'true' || urlParams.get('key') === 'SUBSWEEP-PRO-2026') {
         localStorage.setItem('subsweep_licensed', 'true');
         localStorage.setItem('subsweep-lead-scanner_pro_licensed', 'true');
+        try {
+          const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+          window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+        } catch (e) {}
       }
       isProLicensed = isProUser();
 
@@ -2699,31 +2702,41 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
     }
 
     function openLicenseModal() {
-      document.getElementById('licenseModal').classList.add('open');
+      const m = document.getElementById('licenseModal') || document.querySelector('[data-alias="paywall-modal"]');
+      if (m) m.classList.add('open');
     }
 
     function closeLicenseModal() {
-      document.getElementById('licenseModal').classList.remove('open');
+      const m = document.getElementById('licenseModal') || document.querySelector('[data-alias="paywall-modal"]');
+      if (m) m.classList.remove('open');
     }
+    window.openLicenseModal = openLicenseModal;
+    window.closeLicenseModal = closeLicenseModal;
+    window.openProModal = openLicenseModal;
+    window.closeProModal = closeLicenseModal;
+    window.openPaywallModal = openLicenseModal;
+    window.closePaywallModal = closeLicenseModal;
 
     function activateLicenseKey(providedKey) {
       let val = providedKey;
       if (!val) {
-        const input = document.getElementById('licenseInput');
+        const input = document.getElementById('license-input') || document.getElementById('licenseInput');
         val = input ? input.value.trim() : '';
       }
-      if (val && (val.length > 3 || val.toUpperCase() === 'SUBSWEEP-PRO-2026' || val.includes('@'))) {
+      if (val && (val.length > 3 || val.toUpperCase() === 'SUBSWEEP-PRO-2026' || val.includes('@') || val.toUpperCase() === 'SOVEREIGN-PRO-2026')) {
         localStorage.setItem('subsweep_licensed', 'true');
         localStorage.setItem('subsweep-lead-scanner_pro_licensed', 'true');
         checkLicense();
         closeLicenseModal();
         showToast('⭐ SubSweep Pro successfully activated! All exports unlocked.');
+        return true;
       } else {
-        if (!providedKey && typeof alert === 'function') {
-          try { alert('Please enter a valid receipt email or license key.'); } catch(e) {}
-        }
+        showToast('Please enter a valid receipt email or license key.');
+        return false;
       }
     }
+    window.activateLicenseKey = activateLicenseKey;
+    window.activateLicense = activateLicenseKey;
 
     function activateDemoLicense() {
       localStorage.setItem('subsweep_licensed', 'true');
@@ -2785,7 +2798,7 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
   </script>
 
   <!-- Pro Paywall Modal -->
-  <div class="modal-backdrop" id="licenseModal">
+  <div class="modal-backdrop" id="licenseModal" data-alias="paywall-modal">
     <div class="modal-card">
       <button class="modal-close" onclick="closeLicenseModal()">&times;</button>
       <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem;">
@@ -2800,11 +2813,11 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
         <label style="display: block; font-family: var(--font-family-mono); font-size: 0.75rem; font-weight: 600; color: var(--google-blue); margin-bottom: 0.4rem;">
           LICENSE KEY OR STRIPE EMAIL:
         </label>
-        <input type="text" id="licenseInput" placeholder="SUBSWEEP-PRO-2026 or receipt email" class="search-input" style="width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-shape-corner-xs); padding: 8px 12px; font-size: 0.95rem; min-height: 44px; background: var(--md-sys-color-surface);">
+        <input type="text" id="license-input" data-alias="licenseInput" placeholder="SUBSWEEP-PRO-2026 or receipt email" class="search-input" style="width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-shape-corner-xs); padding: 8px 12px; font-size: 0.95rem; min-height: 44px; background: var(--md-sys-color-surface);">
       </div>
 
       <div style="display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-        <button class="btn-checkout btn-stripe" id="btnActivateKey" onclick="activateLicenseKey(document.getElementById('licenseInput').value)" style="flex: 1; justify-content: center; min-width: 140px;">
+        <button class="btn-checkout btn-stripe" id="btnActivateKey" onclick="activateLicenseKey((document.getElementById('license-input') || document.getElementById('licenseInput')).value)" style="flex: 1; justify-content: center; min-width: 140px;">
           Activate Pro ⚡
         </button>
         <button class="btn-checkout btn-solana" onclick="activateDemoLicense()" style="flex: 1; justify-content: center; min-width: 140px;">

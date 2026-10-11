@@ -1,17 +1,24 @@
 {
   "name": "subsweep-lead-scanner",
   "version": "2.5.0",
-  "description": "Zero-Dependency OSINT Reconnaissance, Subdomain Enumerator, Port Prober & Business Lead Harvester — Desktop Workstation",
+  "description": "Zero-Dependency OSINT Reconnaissance, Subdomain Enumerator, Port Prober & Business Lead Harvester — Desktop & Web Workstation",
   "main": "electron/main.cjs",
+  "homepage": "https://subsweep.nullai.tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1nc0gn30/subsweep-lead-scanner.git"
+  },
   "bin": {
     "subsweep": "./bin/subsweep.js",
     "subsweep-recon": "./bin/subsweep.js"
   },
   "scripts": {
-    "start": "python3 -m subsweep_lead_scanner.cli serve --port 8090",
+    "start": "python3 -m http.server 8090 --directory public",
+    "serve:public": "python3 -m http.server 8090 --directory public",
     "electron": "electron .",
     "app": "electron .",
-    "test": "pytest tests/"
+    "test": "pytest tests/",
+    "test:ui": "python3 scripts/verify_ui.py"
   },
   "keywords": [
     "osint",
@@ -24,7 +31,7 @@
     "zero-egress",
     "sovereign",
     "electron",
-    "zoth"
+    "nullai"
   ],
   "author": "Neal Frazier Tech (@1nc0gn30) • NullAI Platform",
   "license": "MIT",
