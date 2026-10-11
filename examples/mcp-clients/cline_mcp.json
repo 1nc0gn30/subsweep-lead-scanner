@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "subsweep": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "subsweep_lead_scanner.mcp_server"
+      ]
+    }
+  }
+}

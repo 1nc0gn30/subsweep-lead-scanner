@@ -5,10 +5,16 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/subsweep-lead-scanner/subsweep-lead-scanner/actions"><img src="https://img.shields.io/badge/CI-15%20Jobs%20Passing-1e8e3e?style=flat-square&logo=github-actions&logoColor=white" alt="CI Status" /></a>
+  <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Live%20App-subsweep.nullai.tech-1a73e8?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live App" /></a>
+  <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww"><img src="https://img.shields.io/badge/Stripe%20Checkout-$19%20Lifetime-635BFF?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe Checkout" /></a>
+  <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Solana%20DePay-Web3%20Checkout-14F195?style=for-the-badge&logo=solana&logoColor=black" alt="Solana DePay" /></a>
+  <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Zero%20Egress-100%25%20In--Browser-10B981?style=for-the-badge" alt="Zero Egress" /></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/1nc0gn30/subsweep-lead-scanner/actions"><img src="https://img.shields.io/badge/CI-15%20Jobs%20Passing-1e8e3e?style=flat-square&logo=github-actions&logoColor=white" alt="CI Status" /></a>
   <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-1a73e8?style=flat-square&logo=python&logoColor=white" alt="Python Versions" /></a>
   <a href="./docs/MCP_GUIDE.md"><img src="https://img.shields.io/badge/MCP-Standard%20v2024.11-9334e6?style=flat-square&logo=anthropic&logoColor=white" alt="MCP Ready" /></a>
-  <a href="./public/index.html"><img src="https://img.shields.io/badge/UI-Material%203%20Design-f9ab00?style=flat-square&logoColor=white" alt="Material 3 Design" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-gray?style=flat-square" alt="MIT License" /></a>
 </p>
 
@@ -224,5 +230,24 @@ PYTHONPATH=src pytest tests/ -v
 
 ---
 
+## 💎 Founding Member Pro ($19 Lifetime)
+
+SubSweep Recon Studio is engineered as an autonomous sovereign security and lead intelligence utility with dual checkout rails:
+
+- **Stripe Direct Rail**: [Instant Lifetime License ($19)](https://buy.stripe.com/7sI7sA8hM2X8eFG8ww) (Credit Cards, Apple Pay, Google Pay)
+- **Solana Web3 DePay**: On-chain instant checkout via DePay integration (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`)
+- **Pro Capabilities**: Full unlocked CSV/JSON lead exports, executive dossier downloads, uncensored decision-maker direct dials, and 100% in-browser zero-egress execution.
+
+---
+
+## 👑 Author & Sovereignty
+
+- **Engineered by**: [Neal Frazier Tech](https://nealfrazier.tech) ([@1nc0gn30](https://github.com/1nc0gn30))
+- **Ecosystem**: [NullAI Platform](https://nullai.tech)
+- **Repository**: [1nc0gn30/subsweep-lead-scanner](https://github.com/1nc0gn30/subsweep-lead-scanner)
+
+---
+
 ## 📄 License
-Released under the [MIT License](./LICENSE). Built with privacy-first principles.
+
+Released under the [MIT License](./LICENSE). Engineered with zero external runtime dependencies by Neal Frazier Tech.

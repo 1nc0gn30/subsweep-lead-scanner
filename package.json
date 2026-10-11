@@ -1,0 +1,34 @@
+{
+  "name": "subsweep-lead-scanner",
+  "version": "2.0.0",
+  "description": "Zero-Dependency OSINT Reconnaissance, Subdomain Enumerator, Port Prober & Business Lead Harvester — Desktop Workstation",
+  "main": "electron/main.cjs",
+  "bin": {
+    "subsweep": "./bin/subsweep.js",
+    "subsweep-recon": "./bin/subsweep.js"
+  },
+  "scripts": {
+    "start": "python3 -m subsweep_lead_scanner.cli serve --port 8090",
+    "electron": "electron .",
+    "app": "electron .",
+    "test": "pytest tests/"
+  },
+  "keywords": [
+    "osint",
+    "subdomains",
+    "reconnaissance",
+    "dns",
+    "crtsh",
+    "port-scanner",
+    "lead-generation",
+    "zero-egress",
+    "sovereign",
+    "electron",
+    "zoth"
+  ],
+  "author": "NullAI Tech / Zoth Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^34.5.8"
+  }
+}

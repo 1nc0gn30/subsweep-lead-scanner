@@ -64,96 +64,32 @@ def load_or_generate_audit_data(domain: str, data_path: Optional[str] = None) ->
             }
         },
         "subdomains_discovery": {
-            "total_discovered": 6,
-            "http_reachable": 6,
+            "total_discovered": 16,
+            "http_reachable": 16,
             "items": [
-                {
-                    "fqdn": domain,
-                    "ip": "104.21.48.112",
-                    "status_code": 200,
-                    "latency_ms": 24,
-                    "tls_version": "TLS 1.3",
-                    "tls_valid": True,
-                    "service_role": "Apex Portal",
-                    "cdn": "Cloudflare"
-                },
-                {
-                    "fqdn": f"www.{domain}",
-                    "ip": "104.21.48.112",
-                    "status_code": 200,
-                    "latency_ms": 26,
-                    "tls_version": "TLS 1.3",
-                    "tls_valid": True,
-                    "service_role": "Marketing Site",
-                    "cdn": "Cloudflare"
-                },
-                {
-                    "fqdn": f"api.{domain}",
-                    "ip": "35.241.12.89",
-                    "status_code": 200,
-                    "latency_ms": 38,
-                    "tls_version": "TLS 1.3",
-                    "tls_valid": True,
-                    "service_role": "REST Gateway",
-                    "cdn": "Google Cloud"
-                },
-                {
-                    "fqdn": f"app.{domain}",
-                    "ip": "76.76.21.21",
-                    "status_code": 200,
-                    "latency_ms": 19,
-                    "tls_version": "TLS 1.3",
-                    "tls_valid": True,
-                    "service_role": "SaaS Dashboard",
-                    "cdn": "Vercel Edge"
-                },
-                {
-                    "fqdn": f"auth.{domain}",
-                    "ip": "35.241.12.92",
-                    "status_code": 200,
-                    "latency_ms": 42,
-                    "tls_version": "TLS 1.3",
-                    "tls_valid": True,
-                    "service_role": "OAuth SSO",
-                    "cdn": "Google Cloud"
-                },
-                {
-                    "fqdn": f"status.{domain}",
-                    "ip": "104.16.12.3",
-                    "status_code": 200,
-                    "latency_ms": 28,
-                    "tls_version": "TLS 1.3",
-                    "tls_valid": True,
-                    "service_role": "Statuspage",
-                    "cdn": "Cloudflare"
-                }
+                {"fqdn": domain, "ip": "104.21.48.112", "status_code": 200, "latency_ms": 24, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Apex Portal", "cdn": "Cloudflare"},
+                {"fqdn": f"www.{domain}", "ip": "104.21.48.112", "status_code": 200, "latency_ms": 26, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Marketing Site", "cdn": "Cloudflare"},
+                {"fqdn": f"api.{domain}", "ip": "35.241.12.89", "status_code": 200, "latency_ms": 38, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "REST Gateway", "cdn": "Google Cloud"},
+                {"fqdn": f"app.{domain}", "ip": "76.76.21.21", "status_code": 200, "latency_ms": 19, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "SaaS Dashboard", "cdn": "Vercel Edge"},
+                {"fqdn": f"auth.{domain}", "ip": "35.241.12.92", "status_code": 200, "latency_ms": 42, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "OAuth SSO", "cdn": "Google Cloud"},
+                {"fqdn": f"status.{domain}", "ip": "104.16.12.3", "status_code": 200, "latency_ms": 28, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Statuspage", "cdn": "Cloudflare"},
+                {"fqdn": f"cdn.{domain}", "ip": "104.21.48.115", "status_code": 200, "latency_ms": 15, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Assets CDN", "cdn": "Cloudflare"},
+                {"fqdn": f"dev.{domain}", "ip": "35.241.12.95", "status_code": 200, "latency_ms": 45, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Dev Environment", "cdn": "Google Cloud"},
+                {"fqdn": f"staging.{domain}", "ip": "35.241.12.96", "status_code": 200, "latency_ms": 43, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Staging Cluster", "cdn": "Google Cloud"},
+                {"fqdn": f"mail.{domain}", "ip": "104.21.48.118", "status_code": 200, "latency_ms": 30, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Webmail Gateway", "cdn": "Cloudflare"},
+                {"fqdn": f"docs.{domain}", "ip": "76.76.21.25", "status_code": 200, "latency_ms": 21, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Documentation", "cdn": "Vercel Edge"},
+                {"fqdn": f"blog.{domain}", "ip": "76.76.21.28", "status_code": 200, "latency_ms": 22, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Engineering Blog", "cdn": "Vercel Edge"},
+                {"fqdn": f"billing.{domain}", "ip": "35.241.12.100", "status_code": 200, "latency_ms": 40, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Billing Portal", "cdn": "Stripe Relay"},
+                {"fqdn": f"support.{domain}", "ip": "104.16.12.8", "status_code": 200, "latency_ms": 29, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Zendesk Support", "cdn": "Cloudflare"},
+                {"fqdn": f"telemetry.{domain}", "ip": "35.241.12.105", "status_code": 200, "latency_ms": 35, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "Telemetry Gateway", "cdn": "Google Cloud"},
+                {"fqdn": f"vpn.{domain}", "ip": "198.51.100.12", "status_code": 200, "latency_ms": 50, "tls_version": "TLS 1.3", "tls_valid": True, "service_role": "WireGuard Gateway", "cdn": "Direct Edge"}
             ]
         },
         "open_ports_and_services": [
-            {
-                "port": 80,
-                "protocol": "TCP",
-                "state": "open",
-                "service": "HTTP",
-                "banner": "cloudflare / 301 Moved",
-                "risk_level": "Low"
-            },
-            {
-                "port": 443,
-                "protocol": "TCP",
-                "state": "open",
-                "service": "HTTPS",
-                "banner": "nginx/1.25.4 (Ubuntu)",
-                "risk_level": "Low"
-            },
-            {
-                "port": 22,
-                "protocol": "TCP",
-                "state": "open",
-                "service": "SSH",
-                "banner": "OpenSSH 9.3p1",
-                "risk_level": "Medium"
-            }
+            {"port": 80, "protocol": "TCP", "state": "open", "service": "HTTP", "banner": "cloudflare / 301 Moved", "risk_level": "Low"},
+            {"port": 443, "protocol": "TCP", "state": "open", "service": "HTTPS", "banner": "nginx/1.25.4 (Ubuntu)", "risk_level": "Low"},
+            {"port": 22, "protocol": "TCP", "state": "open", "service": "SSH", "banner": "OpenSSH 9.3p1", "risk_level": "Medium"},
+            {"port": 8080, "protocol": "TCP", "state": "open", "service": "HTTP-Proxy", "banner": "Envoy/1.28.0", "risk_level": "Low"}
         ],
         "technology_fingerprints": [
             {
