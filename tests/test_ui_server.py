@@ -64,7 +64,7 @@ class TestUIServerEndpoints:
         assert data["status"] == "healthy"
         assert "uptime_seconds" in data
         assert "version" in data
-        assert headers.get("Access-Control-Allow-Origin") == "*"
+        assert headers.get("Access-Control-Allow-Origin") == "http://127.0.0.1"
 
     def test_get_mcp_config(self, live_server):
         """Test GET /api/mcp/config?client=cursor."""
@@ -215,7 +215,7 @@ class TestUIServerEndpoints:
         """Test OPTIONS preflight returns CORS headers."""
         status, headers, _ = _http_request(f"{live_server}/api/scan", method="OPTIONS")
         assert status == 204
-        assert headers.get("Access-Control-Allow-Origin") == "*"
+        assert headers.get("Access-Control-Allow-Origin") == "http://127.0.0.1"
         assert "POST" in headers.get("Access-Control-Allow-Methods", "")
 
     def test_404_not_found(self, live_server):

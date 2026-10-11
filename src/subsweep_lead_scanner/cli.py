@@ -772,7 +772,7 @@ def build_parser() -> argparse.ArgumentParser:
     # serve
     p_serve = subparsers.add_parser("serve", help="Start Google Material 3 Recon Studio Web UI server")
     p_serve.add_argument("--port", type=int, default=8090, help="Port to listen on (default: 8090)")
-    p_serve.add_argument("--host", default="0.0.0.0", help="Host interface to bind to (default: 0.0.0.0)")
+    p_serve.add_argument("--host", default="127.0.0.1", help="Host interface to bind to (default: 127.0.0.1; use 0.0.0.0 only on trusted networks)")
     p_serve.add_argument("--public-dir", help="Custom public static directory")
     p_serve.add_argument("--open", action="store_true", help="Automatically open UI in default web browser")
 
