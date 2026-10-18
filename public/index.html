@@ -1228,7 +1228,7 @@
   <header class="app-bar">
     <div class="header-inner">
       <a href="#" class="brand" title="SubSweep Recon Studio" style="display: flex; align-items: center; gap: 8px;">
-        <img src="/assets/icon.png" alt="SubSweep Logo" class="brand-icon" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover; box-shadow: 0 0 10px rgba(26,115,232,0.4);">
+        <img src="assets/icon.png" alt="SubSweep Logo" class="brand-icon" style="width: 28px; height: 28px; border-radius: 6px; object-fit: cover; box-shadow: 0 0 10px rgba(26,115,232,0.4);">
         <div class="google-dots">
           <div class="dot dot-blue"></div>
           <div class="dot dot-red"></div>
@@ -1264,7 +1264,7 @@
           <span id="licenseBadge">⚡ FREE TIER</span>
         </div>
         <button class="btn-action-sm" id="activateKeyBtn" onclick="openLicenseModal()" style="border: 1px solid var(--md-sys-color-outline); font-size: 12px; padding: 6px 12px; cursor: pointer; border-radius: 4px; background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface);">
-          🔑 UNLOCK PRO
+          ✦ UNLOCK PRO
         </button>
         <select id="presetSelect" class="demo-select" onchange="loadPresetDomain(this.value)">
           <option value="acme-cloud.io">Preset: Acme Cloud Enterprise</option>
@@ -1298,7 +1298,7 @@
       </div>
       <div class="sales-ctas">
         <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn-checkout btn-stripe">
-          💳 Unlock Pro — $19 Lifetime
+          ★ Unlock Pro — $19 Lifetime
         </a>
         <button onclick="openDePayCheckout(event)" class="btn-checkout btn-solana">
           ◎ Pay with Solana
@@ -1312,7 +1312,7 @@
     <!-- Active Scan Animated Banner -->
     <div id="scanProgressBanner" class="scan-progress-banner">
       <div class="progress-header">
-        <span id="progressTitle">🔍 Executing OSINT Recon & Lead Harvest on acme-cloud.io...</span>
+        <span id="progressTitle">⌕ Executing OSINT Recon & Lead Harvest on acme-cloud.io...</span>
         <span id="progressPercent">0%</span>
       </div>
       <div class="progress-bar-track">
@@ -1347,7 +1347,7 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <span>Discovered Subdomains</span>
-            <div class="kpi-icon-pill bg-blue-container">🌐</div>
+            <div class="kpi-icon-pill bg-blue-container">◎</div>
           </div>
           <div id="kpiSubdomainCount" class="kpi-val">18</div>
           <div class="kpi-footer text-green">
@@ -1359,7 +1359,7 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <span>Verified Decision Leads</span>
-            <div class="kpi-icon-pill bg-green-container">🏢</div>
+            <div class="kpi-icon-pill bg-green-container">✦</div>
           </div>
           <div id="kpiLeadCount" class="kpi-val">14</div>
           <div class="kpi-footer text-green">
@@ -1371,7 +1371,7 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <span>Attack Surface Index</span>
-            <div class="kpi-icon-pill bg-yellow-container">🔌</div>
+            <div class="kpi-icon-pill bg-yellow-container">⚡</div>
           </div>
           <div id="kpiPortCount" class="kpi-val">6 Open</div>
           <div class="kpi-footer text-yellow">
@@ -1383,7 +1383,7 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <span>Tech Stack Modernity</span>
-            <div class="kpi-icon-pill bg-purple-container">🔬</div>
+            <div class="kpi-icon-pill bg-purple-container">✦</div>
           </div>
           <div id="kpiTechCount" class="kpi-val">96%</div>
           <div class="kpi-footer text-purple">
@@ -1396,30 +1396,30 @@
     <!-- Navigation Tabs -->
     <div class="tabs-nav">
       <button class="tab-btn active" onclick="switchTab('tab-subdomains', this)">
-        <span>🌐 Subdomains</span>
+        <span>◎ Subdomains</span>
         <span class="chip chip-blue" id="tabCountSubdomains">18</span>
       </button>
       <button class="tab-btn" onclick="switchTab('tab-leads', this)">
-        <span>🏢 Business Leads</span>
+        <span>✦ Business Leads</span>
         <span class="chip chip-green" id="tabCountLeads">14</span>
       </button>
       <button class="tab-btn" onclick="switchTab('tab-tech', this)">
-        <span>🔬 Tech Profiler</span>
+        <span>✦ Tech Profiler</span>
         <span class="chip chip-purple" id="tabCountTech">11</span>
       </button>
       <button class="tab-btn" onclick="switchTab('tab-ports', this)">
-        <span>🔌 Port Matrix</span>
+        <span>⚡ Port Matrix</span>
         <span class="chip chip-yellow" id="tabCountPorts">6</span>
       </button>
       <button class="tab-btn" onclick="switchTab('tab-mcp', this)">
-        <span>🤖 AI Agents & MCP</span>
+        <span>◈ AI Agents & MCP</span>
         <span class="chip chip-outline">Ready</span>
       </button>
       <button class="tab-btn" onclick="switchTab('tab-report', this)">
-        <span>📊 Executive Report</span>
+        <span>◈ Executive Report</span>
       </button>
       <button class="tab-btn" onclick="switchTab('tab-guide', this)">
-        <span>📖 OSINT Guide & CLI</span>
+        <span>▣ OSINT Guide & CLI</span>
       </button>
     </div>
 
@@ -1462,7 +1462,7 @@
       <!-- Subdomain Tree View -->
       <div id="subdomainsTreeView" class="tree-view-wrapper" style="display: none;">
         <div class="tree-root-node">
-          <span style="font-size: 18px;">🌐</span>
+          <span style="font-size: 18px;">◎</span>
           <span id="treeRootDomainLabel">acme-cloud.io</span>
           <span class="chip chip-green" style="background: rgba(255,255,255,0.2); color: #fff;">Apex Domain</span>
         </div>
@@ -1627,14 +1627,14 @@
         <!-- Frosted Glass Output Paywall Lock Overlay -->
         <div class="paywall-overlay" id="reportPaywallOverlay">
           <div class="lock-card">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔒</div>
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">★</div>
             <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--md-sys-color-on-surface);">Executive Reconnaissance Dossier Locked</h4>
             <p style="font-size: 0.82rem; margin-bottom: 1.25rem; line-height: 1.5; color: var(--md-sys-color-on-surface-variant);">
               Unlock uncensored C-level decision-maker direct dials, verified email addresses, port vulnerability telemetry, and executive report downloads.
             </p>
             <div style="display: flex; flex-direction: column; gap: 0.6rem;">
               <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn-checkout btn-stripe" style="justify-content: center;">
-                💳 Unlock Pro — $19 Lifetime
+                ★ Unlock Pro — $19 Lifetime
               </a>
               <button onclick="openDePayCheckout(event)" class="btn-checkout btn-solana" style="justify-content: center;">
                 ◎ Pay with Solana
@@ -1653,7 +1653,7 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div class="card">
           <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <span>💻 CLI Quick Reference</span>
+            <span>▣ CLI Quick Reference</span>
           </h3>
           <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
             <div>
@@ -1970,7 +1970,7 @@
             </div>
           </td>
           <td>
-            <span class="chip chip-green" style="font-size: 11.5px;">🔒 ${item.tls}</span>
+            <span class="chip chip-green" style="font-size: 11.5px;">★ ${item.tls}</span>
           </td>
           <td>
             <span style="font-size: 12.5px; color: var(--md-sys-color-on-surface);">${item.role}</span>
@@ -2306,7 +2306,7 @@
 
       banner.style.display = "block";
       fill.style.width = "0%";
-      title.textContent = `🔍 Executing OSINT Recon & Lead Harvest on ${domain}...`;
+      title.textContent = `⌕ Executing OSINT Recon & Lead Harvest on ${domain}...`;
 
       const steps = [
         { p: 20, text: "1/5 Querying Certificate Transparency Logs (crt.sh & AlienVault)..." },
