@@ -615,7 +615,7 @@ def handle_test(args: argparse.Namespace) -> int:
       <body>
         <h1>Welcome to Acme</h1>
         <p>Contact: info@acmecorp.com or support@acmecorp.com</p>
-        <p>Call us at (800) 555-0199 or +1-555-234-5678</p>
+        <p>Call us at (948) 204-7987 or +1-948-204-7987</p>
         <a href="https://linkedin.com/company/acme-corp">LinkedIn</a>
         <a href="https://twitter.com/acmecorp">Twitter</a>
         <script type="application/ld+json">
@@ -623,7 +623,7 @@ def handle_test(args: argparse.Namespace) -> int:
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "Acme Corp",
-          "telephone": "(800) 555-0199",
+          "telephone": "(948) 204-7987",
           "address": {"streetAddress": "123 Market St", "addressLocality": "Austin", "addressRegion": "TX"}
         }
         </script>
