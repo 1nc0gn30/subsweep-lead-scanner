@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/hero-banner.svg" alt="SubSweep Lead Scanner — Sovereign Architecture Banner" width="100%" />
+</div>
+
+<br />
+
 # SubSweep Studio | OSINT Recon & Lead Intelligence
 
 <p align="center">
