@@ -12,9 +12,9 @@
 
 <p align="center">
   <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Live%20App-subsweep.nullai.tech-1a73e8?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live App" /></a>
-  <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww"><img src="https://img.shields.io/badge/Stripe%20Checkout-$19%20Lifetime-635BFF?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe Checkout" /></a>
-  <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Solana%20DePay-Web3%20Checkout-14F195?style=for-the-badge&logo=solana&logoColor=black" alt="Solana DePay" /></a>
-  <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Zero%20Egress-100%25%20In--Browser-10B981?style=for-the-badge" alt="Zero Egress" /></a>
+  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X"><img src="https://img.shields.io/badge/%E2%98%95%20Buy%20Us%20a%20Coffee-Stripe-D4AF37?style=for-the-badge" alt="Buy Us a Coffee" /></a>
+  <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK"><img src="https://img.shields.io/badge/%E2%97%8E%20Solana%20Tip-GG2e...dXoK-14F195?style=for-the-badge" alt="Solana Tip" /></a>
+  <a href="https://subsweep.nullai.tech"><img src="https://img.shields.io/badge/Access-100%25%20Free%20%26%20Open-10B981?style=for-the-badge" alt="100% Free & Open Access" /></a>
 </p>
 
 <p align="center">
@@ -89,17 +89,43 @@ flowchart TD
 
 ## ⚡ Quickstart & Installation
 
-### Option 1: Install via pip
+### Option 1: Standalone Server on Port 8090
 ```bash
-pip install subsweep-lead-scanner
+git clone https://github.com/1nc0gn30/subsweep-lead-scanner.git
+cd subsweep-lead-scanner
+python3 server.py --port 8090
+```
+Navigate to `http://127.0.0.1:8090` to access the full SubSweep Recon Studio.
+
+### Option 2: ZothOS CLI Binary Commands
+```bash
+# Check daemon & environment status
+subsweep --status
+
+# Get structured JSON telemetry & system metadata
+subsweep --json
+
+# Run hardware & DNS networking diagnostics
+subsweep platform
+
+# Run internal engine self-tests (6/6 checks)
+subsweep test
+
+# Run full domain OSINT reconnaissance
+subsweep scan acme-cloud.io
+
+# Harvest verified B2B decision maker leads
+subsweep leads acme-cloud.io --min-score 80 --export leads.csv
 ```
 
-### Option 2: Clone & Development Setup
-```bash
-git clone https://github.com/subsweep-lead-scanner/subsweep-lead-scanner.git
-cd subsweep-lead-scanner
-pip install -e .
-```
+---
+
+## ☕ Support & Tip Rails (100% Free & Open-Access)
+
+Every feature in SubSweep Lead Scanner is **100% free, open-source, and unlocked by default**. If you find this sovereign tool valuable, you can support continuous development:
+
+- **☕ Buy Us a Coffee (Stripe)**: [buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X)
+- **◎ Solana Tip Address**: `GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`
 
 ---
 
@@ -240,7 +266,7 @@ PYTHONPATH=src pytest tests/ -v
 
 SubSweep Recon Studio is engineered as an autonomous sovereign security and lead intelligence utility with dual checkout rails:
 
-- **Stripe Direct Rail**: [Instant Lifetime License ($19)](https://buy.stripe.com/7sI7sA8hM2X8eFG8ww) (Credit Cards, Apple Pay, Google Pay)
+- **Stripe Direct Rail**: [Instant Lifetime License ($19)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) (Credit Cards, Apple Pay, Google Pay)
 - **Solana Web3 DePay**: On-chain instant checkout via DePay integration (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`)
 - **Pro Capabilities**: Full unlocked CSV/JSON lead exports, executive dossier downloads, uncensored decision-maker direct dials, and 100% in-browser zero-egress execution.
 

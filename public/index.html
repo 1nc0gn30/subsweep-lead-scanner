@@ -29,8 +29,6 @@
   <link rel="apple-touch-icon" href="/assets/icon.png">
 
   <!-- DePay Web3 Solana Payment Widget -->
-  <script src="https://integrate.depay.com/widgets/v13.js" defer></script>
-
   <!-- AEO & SEO Schema.org Graph -->
   <script type="application/ld+json">
   {
@@ -45,7 +43,7 @@
         "description": "Professional in-browser OSINT reconnaissance, passive DNS enumerator, port scanner, tech stack fingerprinter, executive lead harvester, and MCP AI agent hub.",
         "offers": {
           "@type": "Offer",
-          "price": "19.00",
+          "price": "0",
           "priceCurrency": "USD"
         },
         "author": {
@@ -291,7 +289,7 @@
     }
 
     .report-wrapper.paywall-locked .report-preview-sheet {
-      filter: blur(6px);
+      filter: none;
       user-select: none;
     }
 
@@ -300,7 +298,7 @@
       position: absolute;
       inset: 0;
       background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(4px);
+      backdrop-filter: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -332,7 +330,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
+      backdrop-filter: none;
       z-index: 2000;
       align-items: center;
       justify-content: center;
@@ -1221,8 +1219,47 @@
     }
   </style>
   <link rel="stylesheet" href="zoth-theme.css">
+
+  <!-- Zoth 100% Open-Access & Buy Us a Coffee Invariant -->
+  <script id="zoth-open-access-init">
+    (function() {
+      try {
+        var keys = ['agent_audiocipher_pro', 'agent_cyber_turtle_pro', 'agent_datamosh_pro', 'agent_nexus3d_pro', 'agent_policy_pro', 'audiocipher_license', 'audiocipher_pro_licensed', 'badge3d_pro_licensed', 'certpath_pro_key', 'certpath_pro_licensed', 'cron_rhythm_pro_key', 'cron_rhythm_pro_licensed', 'cwv-speed-engine_pro_licensed', 'cwv_pro_licensed', 'cyber_turtle_pro_licensed', 'datamosh_pro_licensed', 'deepsearch-research-agent_pro_licensed', 'deepsearch_pro_licensed', 'entropy_studio_licensed', 'envguard-secrets-vault_pro_licensed', 'envguard_pro_license', 'etsy_connector_pro', 'jwt_guard_licensed', 'mdg_pro_licensed', 'neuro_pro_licensed', 'nexus3d_pro_licensed', 'omnipost_pro_key', 'omnipost_pro_licensed', 'osint_pro_licensed', 'payload-entropy-studio_pro_licensed', 'polyglot_pro_licensed', 'pro_licensed', 'promptmaster_pro_licensed', 'promptmaster_pro_active', 'robots-txt-auditor_pro_licensed', 'robots_pro_licensed', 'schema_illustrator_pro_licensed', 'sovereign_pro_licensed', 'subsweep-lead-scanner_pro_licensed', 'subsweep_licensed', 'turtle_pro_licensed', 'ufo_sacred_licensed', 'vector-search-engine_pro_licensed', 'vector_studio_pro_licensed', 'web-security-guard_pro_licensed', 'web_security_guard_licensed', 'yourdigitalspace_pro', 'zela_guide_pro_licensed', 'zoth_ascii_magic_pro', 'zoth_audiocipher_licensed', 'zoth_badge3d_licensed', 'zoth_cyber_turtle_licensed', 'zoth_datamosh_licensed', 'zoth_etsy_licensed', 'zoth_nexus3d_licensed', 'zoth_osint_licensed', 'zoth_policy_licensed', 'zoth_sacred_licensed', 'zoth_ufo_licensed'];
+        for (var i = 0; i < keys.length; i++) {
+          localStorage.setItem(keys[i], 'true');
+        }
+        localStorage.setItem('pm_license_v2', JSON.stringify({ method: 'open_access', ref: 'free_forever', at: '2026-01-01T00:00:00Z' }));
+        window.isPro = true;
+        window.isProLicensed = true;
+      } catch (e) {}
+    })();
+  </script>
+  <style id="zoth-open-access-override">
+    .paywall-overlay, .output-paywall-overlay, #outputPaywallOverlay, #schemaPaywallOverlay,
+    #transformerPaywallOverlay, #proPaywallModal, #licenseModal, #salesBanner, #founding-offer-banner,
+    #funnelHeroBanner, [data-alias="paywallOverlay"], [data-alias="founding-offer-banner"] {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    .paywall-wrap #outputPreview, .paywall-wrap #reportContentArea, .paywall-content,
+    .paywall-content.locked, .paywall-wrap.is-locked #outputPreview, .paywall-wrap.locked #outputPreview {
+      filter: none !important;
+      -webkit-filter: none !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
+    }
+  </style>
+
 </head>
 <body>
+
+<div id="zoth-coffee-support-bar" style="background: linear-gradient(90deg, rgba(16,185,129,0.12), rgba(212,175,55,0.14)); border-bottom: 1px solid rgba(212,175,55,0.35); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; z-index: 9999;">
+  <span style="color: #10B981; font-weight: 800;">✦ 100% FREE &amp; OPEN ACCESS · ZERO PAYWALLS</span>
+  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" style="background: #D4AF37; color: #08080B; padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">☕ Buy Us a Coffee (Stripe)</a>
+  <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" onclick="if(navigator.clipboard){navigator.clipboard.writeText('GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK');this.textContent='✓ Copied GG2eQb...dXoK!';}" style="background: rgba(20,241,149,0.15); color: #14F195; border: 1px solid rgba(20,241,149,0.45); padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">◎ Solana Tip (GG2e...dXoK)</a>
+</div>
+
 
 <!-- App Header -->
   <header class="app-bar">
@@ -1259,13 +1296,10 @@
 
       <!-- Quick Preset Selector & Actions -->
       <div class="header-actions">
-        <div class="badge-status" id="pro-badge" onclick="openLicenseModal()" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--md-shape-corner-full); background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); font-size: 11px; font-weight: 700; color: #ef4444; cursor: pointer;">
-          <span style="width: 7px; height: 7px; border-radius: 50%; background: #ef4444; display: inline-block;"></span>
-          <span id="licenseBadge">⚡ FREE TIER</span>
+        <div class="badge-status" id="pro-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--md-shape-corner-full); background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); font-size: 11px; font-weight: 800; color: #10B981;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+          <span id="licenseBadge">✦ 100% UNLOCKED</span>
         </div>
-        <button class="btn-action-sm" id="activateKeyBtn" onclick="openLicenseModal()" style="border: 1px solid var(--md-sys-color-outline); font-size: 12px; padding: 6px 12px; cursor: pointer; border-radius: 4px; background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface);">
-          ✦ UNLOCK PRO
-        </button>
         <select id="presetSelect" class="demo-select" onchange="loadPresetDomain(this.value)">
           <option value="acme-cloud.io">Preset: Acme Cloud Enterprise</option>
           <option value="stripe-checkout-demo.net">Preset: Stripe Checkout Platform</option>
@@ -1282,32 +1316,6 @@
 
   <!-- Main App Content -->
   <main class="main-content">
-
-    <!-- Founding Member Sales Funnel Banner -->
-    <div class="sales-banner" id="salesBanner" data-alias="founding-offer-banner">
-      <div class="sales-content">
-        <div class="sales-badge">
-          ⭐ FOUNDING MEMBER ACCESS · 76% DISCOUNT
-        </div>
-        <div class="sales-title">
-          Unlock Unlimited Executive Dossier Exports, Raw Lead CSVs &amp; MCP Tool Pipelines
-        </div>
-        <div class="sales-desc">
-          Get lifetime access to verified decision-maker emails, direct dials, port exposure risk matrices, and one-click JSON/CSV exports for <strong>$19 one-time</strong> (<del style="color: var(--md-sys-color-on-surface-variant);">$79 regular</del>). Dual Stripe + Solana checkout rails.
-        </div>
-      </div>
-      <div class="sales-ctas">
-        <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn-checkout btn-stripe">
-          ★ Unlock Pro — $19 Lifetime
-        </a>
-        <button onclick="openDePayCheckout(event)" class="btn-checkout btn-solana">
-          ◎ Pay with Solana
-        </button>
-        <button id="btn-paywall-key" data-alias="btnActivateBanner" onclick="openLicenseModal()" class="btn-license-inline">
-          Already have a key? Activate
-        </button>
-      </div>
-    </div>
 
     <!-- Active Scan Animated Banner -->
     <div id="scanProgressBanner" class="scan-progress-banner">
@@ -1624,27 +1632,6 @@
           <!-- Rendered by JS -->
         </div>
 
-        <!-- Frosted Glass Output Paywall Lock Overlay -->
-        <div class="paywall-overlay" id="reportPaywallOverlay">
-          <div class="lock-card">
-            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">★</div>
-            <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--md-sys-color-on-surface);">Executive Reconnaissance Dossier Locked</h4>
-            <p style="font-size: 0.82rem; margin-bottom: 1.25rem; line-height: 1.5; color: var(--md-sys-color-on-surface-variant);">
-              Unlock uncensored C-level decision-maker direct dials, verified email addresses, port vulnerability telemetry, and executive report downloads.
-            </p>
-            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-              <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" rel="noopener" class="btn-checkout btn-stripe" style="justify-content: center;">
-                ★ Unlock Pro — $19 Lifetime
-              </a>
-              <button onclick="openDePayCheckout(event)" class="btn-checkout btn-solana" style="justify-content: center;">
-                ◎ Pay with Solana
-              </button>
-              <button onclick="openLicenseModal()" style="background: none; border: none; color: var(--google-blue); font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-top: 0.3rem;">
-                Already have a license key? Activate now
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -1694,7 +1681,7 @@
   <!-- App Footer -->
   <footer class="app-footer" style="padding: 1.5rem; text-align: center; font-size: 0.82rem; color: var(--md-sys-color-on-surface-variant); border-top: 1px solid var(--md-sys-color-outline-variant);">
     <div style="margin-bottom: 0.4rem; font-weight: 700; color: var(--md-sys-color-on-surface);">
-      SubSweep Recon Studio • OSINT Reconnaissance &amp; Lead Intelligence
+      SubSweep Recon Studio • OSINT Reconnaissance & Lead Intelligence
     </div>
     <div>
       Engineered by <a href="https://nealfrazier.tech" target="_blank" rel="noopener" style="color: var(--google-blue);">Neal Frazier Tech (@1nc0gn30)</a> • <a href="https://nullai.tech" target="_blank" rel="noopener" style="color: var(--google-blue);">NullAI Platform</a> • <a href="https://github.com/1nc0gn30/subsweep-lead-scanner" target="_blank" rel="noopener" style="color: var(--google-blue);">GitHub</a>
@@ -1865,7 +1852,7 @@
 
     let currentDomain = "acme-cloud.io";
     let currentData = DATASETS["acme-cloud.io"];
-    let isProLicensed = false;
+    let isProLicensed = true;
 
     // Initialize application on load
     window.addEventListener("DOMContentLoaded", () => {
@@ -2539,10 +2526,6 @@
 
     /* CSV / JSON / Markdown Exporters */
     function exportLeadsCSV() {
-      if (!isProLicensed) {
-        openLicenseModal();
-        return;
-      }
       const leads = currentData.leads;
       const headers = ["Name", "Title", "Email", "Confidence", "Phone", "LinkedIn", "Twitter", "GitHub", "Location", "Score", "Tier", "Status"];
       const rows = leads.map(l => [
@@ -2566,20 +2549,12 @@
     }
 
     function exportLeadsJSON() {
-      if (!isProLicensed) {
-        openLicenseModal();
-        return;
-      }
       const jsonContent = JSON.stringify(currentData.leads, null, 2);
       downloadFile(jsonContent, `${currentData.domain}-leads.json`, "application/json");
       showToast(`Exported leads to JSON`);
     }
 
     function exportExecutiveBundle() {
-      if (!isProLicensed) {
-        openLicenseModal();
-        return;
-      }
       const bundle = JSON.stringify({
         tool: "subsweep-lead-scanner",
         version: "2.5.0",
@@ -2591,10 +2566,6 @@
     }
 
     function downloadMarkdownReport() {
-      if (!isProLicensed) {
-        openLicenseModal();
-        return;
-      }
       const d = currentData;
       const md = `# SubSweep Executive Reconnaissance Report: ${d.companyName} (${d.domain})
 
@@ -2637,10 +2608,6 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
     }
 
     function downloadHTMLReport() {
-      if (!isProLicensed) {
-        openLicenseModal();
-        return;
-      }
       const html = document.getElementById("reportPreviewContainer").innerHTML;
       const fullDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Recon Report - ${currentData.domain}</title><style>body{font-family:system-ui,sans-serif;margin:40px;line-height:1.6;color:#202124;}table{width:100%;border-collapse:collapse;margin:16px 0;}th,td{border:1px solid #dadce0;padding:10px 14px;text-align:left;}th{background:#f8f9fa;}</style></head><body>${html}
 </body></html>`;
@@ -2656,21 +2623,11 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
 
     /* License Management & Paywall */
     function isProUser() {
-      return localStorage.getItem('subsweep_licensed') === 'true' ||
-             localStorage.getItem('subsweep-lead-scanner_pro_licensed') === 'true';
+      return true;
     }
 
     function checkLicense() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === '1' || urlParams.get('pro') === 'true' || urlParams.get('key') === 'SUBSWEEP-PRO-2026') {
-        localStorage.setItem('subsweep_licensed', 'true');
-        localStorage.setItem('subsweep-lead-scanner_pro_licensed', 'true');
-        try {
-          const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-          window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-        } catch (e) {}
-      }
-      isProLicensed = isProUser();
+      isProLicensed = true;
 
       const reportWrapper = document.getElementById('reportWrapper');
       const proBadge = document.getElementById('pro-badge');
@@ -2678,28 +2635,19 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
       const salesBanner = document.getElementById('salesBanner');
       const activateKeyBtn = document.getElementById('activateKeyBtn');
 
-      if (isProLicensed) {
-        if (reportWrapper) reportWrapper.classList.remove('paywall-locked');
-        if (licenseBadge) licenseBadge.textContent = '⭐ PRO ACTIVE';
-        if (proBadge) {
-          proBadge.style.background = 'rgba(212, 175, 55, 0.2)';
-          proBadge.style.color = '#ffd700';
-          proBadge.style.borderColor = 'rgba(212, 175, 55, 0.4)';
-        }
-        if (salesBanner) salesBanner.style.display = 'none';
-        if (activateKeyBtn) activateKeyBtn.style.display = 'none';
-      } else {
-        if (reportWrapper) reportWrapper.classList.add('paywall-locked');
-        if (licenseBadge) licenseBadge.textContent = '⚡ FREE TIER';
-        if (proBadge) {
-          proBadge.style.background = 'rgba(239, 68, 68, 0.1)';
-          proBadge.style.color = '#ef4444';
-          proBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-        }
-        if (salesBanner) salesBanner.style.display = 'flex';
-        if (activateKeyBtn) activateKeyBtn.style.display = 'inline-flex';
+      if (reportWrapper) reportWrapper.classList.remove('paywall-locked');
+      if (licenseBadge) licenseBadge.textContent = '✦ 100% UNLOCKED';
+      if (proBadge) {
+        proBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+        proBadge.style.color = '#10B981';
+        proBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
       }
+      if (salesBanner) salesBanner.style.display = 'none';
+      if (activateKeyBtn) activateKeyBtn.style.display = 'none';
     }
+
+    function openLicenseModal() {}
+    function closeLicenseModal() {}
 
     function openLicenseModal() {
       const m = document.getElementById('licenseModal') || document.querySelector('[data-alias="paywall-modal"]');
@@ -2797,42 +2745,5 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
     }
   </script>
 
-  <!-- Pro Paywall Modal -->
-  <div class="modal-backdrop" id="licenseModal" data-alias="paywall-modal">
-    <div class="modal-card">
-      <button class="modal-close" onclick="closeLicenseModal()">&times;</button>
-      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem;">
-        <span style="font-size: 1.5rem;">⭐</span>
-        <h2 style="font-size: 1.2rem; font-weight: 700; color: var(--md-sys-color-on-surface);">SubSweep Pro Activation</h2>
-      </div>
-      <p style="font-size: 0.85rem; color: var(--md-sys-color-on-surface-variant); margin-bottom: 1.5rem;">
-        Enter your purchase receipt email or lifetime license key to permanently unlock unlimited exports and dissolve all paywalls.
-      </p>
-
-      <div style="margin-bottom: 1.2rem;">
-        <label style="display: block; font-family: var(--font-family-mono); font-size: 0.75rem; font-weight: 600; color: var(--google-blue); margin-bottom: 0.4rem;">
-          LICENSE KEY OR STRIPE EMAIL:
-        </label>
-        <input type="text" id="license-input" data-alias="licenseInput" placeholder="SUBSWEEP-PRO-2026 or receipt email" class="search-input" style="width: 100%; border: 1px solid var(--md-sys-color-outline); border-radius: var(--md-shape-corner-xs); padding: 8px 12px; font-size: 0.95rem; min-height: 44px; background: var(--md-sys-color-surface);">
-      </div>
-
-      <div style="display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-        <button class="btn-checkout btn-stripe" id="btnActivateKey" onclick="activateLicenseKey((document.getElementById('license-input') || document.getElementById('licenseInput')).value)" style="flex: 1; justify-content: center; min-width: 140px;">
-          Activate Pro ⚡
-        </button>
-        <button class="btn-checkout btn-solana" onclick="activateDemoLicense()" style="flex: 1; justify-content: center; min-width: 140px;">
-          Instant Preview Key
-        </button>
-      </div>
-
-      <div style="padding: 1rem; border-radius: var(--md-shape-corner-xs); background: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline-variant); font-size: 0.78rem; color: var(--md-sys-color-on-surface-variant); line-height: 1.6;">
-        <strong style="color: var(--google-blue);">Pro Feature Matrix:</strong><br>
-        ✓ Unlocked CSV, JSON &amp; Full Intelligence Bundle Downloads<br>
-        ✓ Complete Markdown &amp; HTML Executive Reconnaissance Reports<br>
-        ✓ Uncensored C-Level &amp; VP Direct Contact Leads &amp; Phone Dials<br>
-        ✓ 100% in-browser client execution with zero network telemetry<br>
-      </div>
-    </div>
-  </div>
 </body>
 </html>

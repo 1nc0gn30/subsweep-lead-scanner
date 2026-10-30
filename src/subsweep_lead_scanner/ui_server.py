@@ -822,8 +822,9 @@ class ReconRequestHandler(BaseHTTPRequestHandler):
         query_params = urllib.parse.parse_qs(parsed_url.query)
 
         # 1. Health endpoint
-        if path == "/api/health":
+        if path in ("/health", "/api/health"):
             diag = get_diagnostics()
+            diag["status"] = "ok"
             diag["uptime_seconds"] = round(time.time() - START_TIME, 2)
             self._send_json(diag)
             return
