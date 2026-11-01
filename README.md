@@ -262,19 +262,19 @@ PYTHONPATH=src pytest tests/ -v
 
 ---
 
-## 💎 Founding Member Pro ($19 Lifetime)
+## 💎 Founding Member Pro ($0 Lifetime)
 
 SubSweep Recon Studio is engineered as an autonomous sovereign security and lead intelligence utility with dual checkout rails:
 
-- **Stripe Direct Rail**: [Instant Lifetime License ($19)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) (Credit Cards, Apple Pay, Google Pay)
-- **Solana Web3 DePay**: On-chain instant checkout via DePay integration (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`)
+- **Stripe Direct Rail**: [Instant Lifetime License ($0)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) (Credit Cards, Apple Pay, Google Pay)
+- **Solana Web3 Solana Tip**: On-chain instant checkout via Solana Tip integration (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`)
 - **Pro Capabilities**: Full unlocked CSV/JSON lead exports, executive dossier downloads, uncensored decision-maker direct dials, and 100% in-browser zero-egress execution.
 
 ---
 
 ## 👑 Author & Sovereignty
 
-- **Engineered by**: [Neal Frazier Tech](https://nealfrazier.tech) ([@1nc0gn30](https://github.com/1nc0gn30))
+- **Engineered by**: [1nc0gn30 • NullAI](https://nullai.tech) ([@1nc0gn30](https://github.com/1nc0gn30))
 - **Ecosystem**: [NullAI Platform](https://nullai.tech)
 - **Repository**: [1nc0gn30/subsweep-lead-scanner](https://github.com/1nc0gn30/subsweep-lead-scanner)
 
@@ -282,4 +282,4 @@ SubSweep Recon Studio is engineered as an autonomous sovereign security and lead
 
 ## 📄 License
 
-Released under the [MIT License](./LICENSE). Engineered with zero external runtime dependencies by Neal Frazier Tech.
+Released under the [MIT License](./LICENSE). Engineered with zero external runtime dependencies by 1nc0gn30 • NullAI.

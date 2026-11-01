@@ -232,3 +232,44 @@ button, .btn, .btn-pill, .btn-icon, .btn-primary, .btn-secondary {
 button:hover, .btn:hover, .btn-pill:hover, .btn-icon:hover {
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.16) !important;
 }
+
+/* ---- Alabaster Light Mode Overrides ---- */
+html[data-theme="light"] {
+  --zoth-void: #FBF9F5;
+  --zoth-void-2: #F3EFE6;
+  --zoth-text: #111827;
+  --zoth-text-2: #111827;
+  --zoth-muted: #4B5563;
+  --zoth-border: rgba(17, 24, 39, 0.14);
+  --md-sys-color-primary: #9A6B16;
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #F5E6AB;
+  --md-sys-color-on-primary-container: #6B5308;
+  --md-sys-color-surface: #FFFFFF;
+  --md-sys-color-surface-dim: #FBF9F5;
+  --md-sys-color-surface-container-lowest: #FFFFFF;
+  --md-sys-color-surface-container-low: #FBF9F5;
+  --md-sys-color-surface-container: #FFFFFF;
+  --md-sys-color-surface-container-high: #F3EFE6;
+  --md-sys-color-surface-container-highest: #EAE4D7;
+  --md-sys-color-on-surface: #111827;
+  --md-sys-color-on-surface-variant: #4B5563;
+  --md-sys-color-outline: rgba(17, 24, 39, 0.16);
+  --md-sys-color-outline-variant: rgba(17, 24, 39, 0.12);
+}
+
+html[data-theme="light"] body {
+  background: #FBF9F5 !important;
+  color: #111827 !important;
+}
+
+html[data-theme="light"] header.app-bar,
+html[data-theme="light"] .card,
+html[data-theme="light"] .search-box-wrapper,
+html[data-theme="light"] .demo-select,
+html[data-theme="light"] .btn-action-sm {
+  background: #FFFFFF !important;
+  color: #111827 !important;
+  border-color: rgba(17, 24, 39, 0.15) !important;
+}
+

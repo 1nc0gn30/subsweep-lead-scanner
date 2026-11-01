@@ -95,9 +95,12 @@ from .ui_server import (
     create_ui_server,
     run_ui_server,
 )
-from .cli import (
-    main,
-)
+
+
+def main(*args, **kwargs):
+    from .cli import main as _cli_main
+    return _cli_main(*args, **kwargs)
+
 
 __version__ = "1.0.0"
 __author__ = "SubSweep Recon Team"

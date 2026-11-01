@@ -28,7 +28,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon.png">
   <link rel="apple-touch-icon" href="/assets/icon.png">
 
-  <!-- DePay Web3 Solana Payment Widget -->
+  <!-- Solana Tip Web3 Solana Payment Widget -->
   <!-- AEO & SEO Schema.org Graph -->
   <script type="application/ld+json">
   {
@@ -48,12 +48,12 @@
         },
         "author": {
           "@type": "Person",
-          "name": "Neal Frazier",
-          "url": "https://nealfrazier.tech"
+          "name": "1nc0gn30",
+          "url": "https://nullai.tech"
         },
         "publisher": {
           "@type": "Organization",
-          "name": "Neal Frazier Tech",
+          "name": "1nc0gn30 • NullAI",
           "url": "https://nullai.tech"
         }
       },
@@ -1219,38 +1219,6 @@
     }
   </style>
   <link rel="stylesheet" href="zoth-theme.css">
-
-  <!-- Zoth 100% Open-Access & Buy Us a Coffee Invariant -->
-  <script id="zoth-open-access-init">
-    (function() {
-      try {
-        var keys = ['agent_audiocipher_pro', 'agent_cyber_turtle_pro', 'agent_datamosh_pro', 'agent_nexus3d_pro', 'agent_policy_pro', 'audiocipher_license', 'audiocipher_pro_licensed', 'badge3d_pro_licensed', 'certpath_pro_key', 'certpath_pro_licensed', 'cron_rhythm_pro_key', 'cron_rhythm_pro_licensed', 'cwv-speed-engine_pro_licensed', 'cwv_pro_licensed', 'cyber_turtle_pro_licensed', 'datamosh_pro_licensed', 'deepsearch-research-agent_pro_licensed', 'deepsearch_pro_licensed', 'entropy_studio_licensed', 'envguard-secrets-vault_pro_licensed', 'envguard_pro_license', 'etsy_connector_pro', 'jwt_guard_licensed', 'mdg_pro_licensed', 'neuro_pro_licensed', 'nexus3d_pro_licensed', 'omnipost_pro_key', 'omnipost_pro_licensed', 'osint_pro_licensed', 'payload-entropy-studio_pro_licensed', 'polyglot_pro_licensed', 'pro_licensed', 'promptmaster_pro_licensed', 'promptmaster_pro_active', 'robots-txt-auditor_pro_licensed', 'robots_pro_licensed', 'schema_illustrator_pro_licensed', 'sovereign_pro_licensed', 'subsweep-lead-scanner_pro_licensed', 'subsweep_licensed', 'turtle_pro_licensed', 'ufo_sacred_licensed', 'vector-search-engine_pro_licensed', 'vector_studio_pro_licensed', 'web-security-guard_pro_licensed', 'web_security_guard_licensed', 'yourdigitalspace_pro', 'zela_guide_pro_licensed', 'zoth_ascii_magic_pro', 'zoth_audiocipher_licensed', 'zoth_badge3d_licensed', 'zoth_cyber_turtle_licensed', 'zoth_datamosh_licensed', 'zoth_etsy_licensed', 'zoth_nexus3d_licensed', 'zoth_osint_licensed', 'zoth_policy_licensed', 'zoth_sacred_licensed', 'zoth_ufo_licensed'];
-        for (var i = 0; i < keys.length; i++) {
-          localStorage.setItem(keys[i], 'true');
-        }
-        localStorage.setItem('pm_license_v2', JSON.stringify({ method: 'open_access', ref: 'free_forever', at: '2026-01-01T00:00:00Z' }));
-        window.isPro = true;
-        window.isProLicensed = true;
-      } catch (e) {}
-    })();
-  </script>
-  <style id="zoth-open-access-override">
-    .paywall-overlay, .output-paywall-overlay, #outputPaywallOverlay, #schemaPaywallOverlay,
-    #transformerPaywallOverlay, #proPaywallModal, #licenseModal, #salesBanner, #founding-offer-banner,
-    #funnelHeroBanner, [data-alias="paywallOverlay"], [data-alias="founding-offer-banner"] {
-      display: none !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    .paywall-wrap #outputPreview, .paywall-wrap #reportContentArea, .paywall-content,
-    .paywall-content.locked, .paywall-wrap.is-locked #outputPreview, .paywall-wrap.locked #outputPreview {
-      filter: none !important;
-      -webkit-filter: none !important;
-      user-select: auto !important;
-      pointer-events: auto !important;
-    }
-  </style>
-
 </head>
 <body>
 
@@ -1300,6 +1268,9 @@
           <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
           <span id="licenseBadge">✦ 100% UNLOCKED</span>
         </div>
+        <button id="themeToggleBtn" type="button" class="btn-action-sm" onclick="toggleTheme()" style="cursor: pointer;">
+          ☀️ Light Mode
+        </button>
         <select id="presetSelect" class="demo-select" onchange="loadPresetDomain(this.value)">
           <option value="acme-cloud.io">Preset: Acme Cloud Enterprise</option>
           <option value="stripe-checkout-demo.net">Preset: Stripe Checkout Platform</option>
@@ -1684,7 +1655,7 @@
       SubSweep Recon Studio • OSINT Reconnaissance & Lead Intelligence
     </div>
     <div>
-      Engineered by <a href="https://nealfrazier.tech" target="_blank" rel="noopener" style="color: var(--google-blue);">Neal Frazier Tech (@1nc0gn30)</a> • <a href="https://nullai.tech" target="_blank" rel="noopener" style="color: var(--google-blue);">NullAI Platform</a> • <a href="https://github.com/1nc0gn30/subsweep-lead-scanner" target="_blank" rel="noopener" style="color: var(--google-blue);">GitHub</a>
+      Engineered by <a href="https://nullai.tech" target="_blank" rel="noopener" style="color: var(--google-blue);">1nc0gn30 (@1nc0gn30)</a> • <a href="https://nullai.tech" target="_blank" rel="noopener" style="color: var(--google-blue);">NullAI Platform</a> • <a href="https://github.com/1nc0gn30/subsweep-lead-scanner" target="_blank" rel="noopener" style="color: var(--google-blue);">GitHub</a>
     </div>
   </footer>
 
@@ -2610,6 +2581,7 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
     function downloadHTMLReport() {
       const html = document.getElementById("reportPreviewContainer").innerHTML;
       const fullDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Recon Report - ${currentData.domain}</title><style>body{font-family:system-ui,sans-serif;margin:40px;line-height:1.6;color:#202124;}table{width:100%;border-collapse:collapse;margin:16px 0;}th,td{border:1px solid #dadce0;padding:10px 14px;text-align:left;}th{background:#f8f9fa;}</style></head><body>${html}
+  <script src="/assets/sovereign-upgrade.js" defer></script>
 </body></html>`;
       downloadFile(fullDoc, `${currentData.domain}-report.html`, "text/html");
       showToast("Downloaded HTML Recon Report");
@@ -2621,97 +2593,18 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
       showToast(`Copied ${currentData.subdomains.length} subdomains to clipboard`);
     }
 
-    /* License Management & Paywall */
-    function isProUser() {
-      return true;
-    }
-
     function checkLicense() {
       isProLicensed = true;
-
       const reportWrapper = document.getElementById('reportWrapper');
-      const proBadge = document.getElementById('pro-badge');
-      const licenseBadge = document.getElementById('licenseBadge') || document.getElementById('licenseBadgeText');
-      const salesBanner = document.getElementById('salesBanner');
-      const activateKeyBtn = document.getElementById('activateKeyBtn');
-
       if (reportWrapper) reportWrapper.classList.remove('paywall-locked');
-      if (licenseBadge) licenseBadge.textContent = '✦ 100% UNLOCKED';
-      if (proBadge) {
-        proBadge.style.background = 'rgba(16, 185, 129, 0.15)';
-        proBadge.style.color = '#10B981';
-        proBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-      }
-      if (salesBanner) salesBanner.style.display = 'none';
-      if (activateKeyBtn) activateKeyBtn.style.display = 'none';
     }
 
-    function openLicenseModal() {}
-    function closeLicenseModal() {}
-
-    function openLicenseModal() {
-      const m = document.getElementById('licenseModal') || document.querySelector('[data-alias="paywall-modal"]');
-      if (m) m.classList.add('open');
-    }
-
-    function closeLicenseModal() {
-      const m = document.getElementById('licenseModal') || document.querySelector('[data-alias="paywall-modal"]');
-      if (m) m.classList.remove('open');
-    }
-    window.openLicenseModal = openLicenseModal;
-    window.closeLicenseModal = closeLicenseModal;
-    window.openProModal = openLicenseModal;
-    window.closeProModal = closeLicenseModal;
-    window.openPaywallModal = openLicenseModal;
-    window.closePaywallModal = closeLicenseModal;
-
-    function activateLicenseKey(providedKey) {
-      let val = providedKey;
-      if (!val) {
-        const input = document.getElementById('license-input') || document.getElementById('licenseInput');
-        val = input ? input.value.trim() : '';
-      }
-      if (val && (val.length > 3 || val.toUpperCase() === 'SUBSWEEP-PRO-2026' || val.includes('@') || val.toUpperCase() === 'SOVEREIGN-PRO-2026')) {
-        localStorage.setItem('subsweep_licensed', 'true');
-        localStorage.setItem('subsweep-lead-scanner_pro_licensed', 'true');
-        checkLicense();
-        closeLicenseModal();
-        showToast('⭐ SubSweep Pro successfully activated! All exports unlocked.');
-        return true;
-      } else {
-        showToast('Please enter a valid receipt email or license key.');
-        return false;
-      }
-    }
-    window.activateLicenseKey = activateLicenseKey;
-    window.activateLicense = activateLicenseKey;
-
-    function activateDemoLicense() {
-      localStorage.setItem('subsweep_licensed', 'true');
-      checkLicense();
-      closeLicenseModal();
-      showToast('⭐ Instant preview license granted! All exports unlocked.');
-    }
-
-    function openDePayCheckout(e) {
-      if (e && e.preventDefault) e.preventDefault();
-      if (typeof DePayButtons !== 'undefined') {
-        try {
-          DePayButtons.init({
-            integration: '428790dd-7ad1-407c-8ecf-c048c77a4cb8',
-            container: document.body
-          });
-          return;
-        } catch (err) {
-          console.warn('DePay widget initialization error:', err);
-        }
-      }
-      window.open('https://solana.fm/address/GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK', '_blank');
-      openLicenseModal();
-    }
-
-    function triggerSolanaCheckout(e) {
-      openDePayCheckout(e);
+    function toggleTheme() {
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggleBtn');
+      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      if (btn) btn.textContent = next === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode';
     }
 
     /* Utilities */

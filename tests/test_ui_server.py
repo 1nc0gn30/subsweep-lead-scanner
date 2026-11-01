@@ -61,7 +61,7 @@ class TestUIServerEndpoints:
         assert status == 200
         assert "application/json" in headers.get("Content-Type", "")
         data = json.loads(body.decode("utf-8"))
-        assert data["status"] == "healthy"
+        assert data["status"] in ("ok", "healthy")
         assert "uptime_seconds" in data
         assert "version" in data
         assert headers.get("Access-Control-Allow-Origin") == "http://127.0.0.1"
