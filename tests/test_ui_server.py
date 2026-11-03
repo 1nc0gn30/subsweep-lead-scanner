@@ -45,7 +45,7 @@ def _http_request(url: str, method: str = "GET", data: dict = None, headers: dic
 
     req = urllib.request.Request(url, data=body_bytes, headers=hdrs, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=5.0) as resp:
+        with urllib.request.urlopen(req, timeout=20.0) as resp:
             resp_body = resp.read()
             return resp.status, dict(resp.headers), resp_body
     except urllib.error.HTTPError as e:

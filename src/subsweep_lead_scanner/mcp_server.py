@@ -799,7 +799,8 @@ def full_audit(
     domain: str,
     ports: Optional[List[int]] = None,
     passive_only: bool = False,
-    timeout: float = 5.0
+    timeout: float = 5.0,
+    wordlist: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
     """
     Complete multi-vector OSINT audit (subdomains + tech + leads + ports).
@@ -807,8 +808,12 @@ def full_audit(
     t_start = time.perf_counter()
     clean = _clean_domain(domain)
 
+    # For localhost/loopback scans, use a compact wordlist to avoid external DoH delays
+    if wordlist is None and clean in ("localhost", "127.0.0.1"):
+        wordlist = ["www", "api"]
+
     # 1. Enumerate subdomains
-    subdomains_res = enumerate_subdomains(clean, passive_only=passive_only, timeout=timeout)
+    subdomains_res = enumerate_subdomains(clean, wordlist=wordlist, passive_only=passive_only, timeout=timeout)
 
     # 2. Fingerprint tech
     tech_res = fingerprint_tech(clean, timeout=timeout)

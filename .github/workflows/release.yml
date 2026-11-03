@@ -13,6 +13,10 @@ on:
         required: false
         default: 'v2.4.0'
 
+env:
+  PYTHONUTF8: "1"
+  PYTHONIOENCODING: "utf-8"
+
 jobs:
   build-and-release:
     name: Build Distributions & Publish GitHub Release
