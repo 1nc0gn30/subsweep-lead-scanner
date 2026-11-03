@@ -7,7 +7,7 @@ plugins = []
 [functions."*"]
 
 [build]
-publish = "/home/zoth/NullAITech/subsweep-lead-scanner/public"
+publish = "~/NullAITech/subsweep-lead-scanner/public"
 publishOrigin = "config"
 
 [build.environment]
