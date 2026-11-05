@@ -2581,7 +2581,23 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
     function downloadHTMLReport() {
       const html = document.getElementById("reportPreviewContainer").innerHTML;
       const fullDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Recon Report - ${currentData.domain}</title><style>body{font-family:system-ui,sans-serif;margin:40px;line-height:1.6;color:#202124;}table{width:100%;border-collapse:collapse;margin:16px 0;}th,td{border:1px solid #dadce0;padding:10px 14px;text-align:left;}th{background:#f8f9fa;}</style></head><body>${html}
-  <script src="/assets/sovereign-upgrade.js" defer></script>
+  
+
+  <script src="/sovereign_tutorial.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.createSovereignTutorial) {
+        window.createSovereignTutorial({
+          toolId: "subsweep-lead-scanner",
+          toolName: "SubSweep Lead Scanner",
+          tagline: "Autonomous subdomain reconnaissance and OSINT discovery engine!",
+          accentColor: "#F43F5E",
+          steps: [{"icon": "\ud83c\udf10", "title": "Find Hidden Subdomains", "desc": "Discovers unlinked subdomains (like dev.example.com, api.example.com) using certificate transparency logs."}, {"icon": "\ud83d\udd0e", "title": "Lead Enrichment", "desc": "Scans company domain infrastructure to identify cloud hosts, CMS platforms, and tech stacks."}, {"icon": "\ud83d\udcca", "title": "Export Clean Lists", "desc": "Download deduplicated lists of active endpoints for security auditing or sales leads."}]
+        });
+      }
+    });
+  </script>
+
 </body></html>`;
       downloadFile(fullDoc, `${currentData.domain}-report.html`, "text/html");
       showToast("Downloaded HTML Recon Report");
@@ -2636,6 +2652,22 @@ ${d.leads.map(l => `| ${l.name} | ${l.title} | \`${l.email}\` | ${l.phone || 'N/
         t.style.display = "none";
       }, 2500);
     }
+  </script>
+
+
+  <script src="/sovereign_tutorial.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.createSovereignTutorial) {
+        window.createSovereignTutorial({
+          toolId: "subsweep-lead-scanner",
+          toolName: "SubSweep Lead Scanner",
+          tagline: "Autonomous subdomain reconnaissance and OSINT discovery engine!",
+          accentColor: "#F43F5E",
+          steps: [{"icon": "\ud83c\udf10", "title": "Find Hidden Subdomains", "desc": "Discovers unlinked subdomains (like dev.example.com, api.example.com) using certificate transparency logs."}, {"icon": "\ud83d\udd0e", "title": "Lead Enrichment", "desc": "Scans company domain infrastructure to identify cloud hosts, CMS platforms, and tech stacks."}, {"icon": "\ud83d\udcca", "title": "Export Clean Lists", "desc": "Download deduplicated lists of active endpoints for security auditing or sales leads."}]
+        });
+      }
+    });
   </script>
 
 </body>
