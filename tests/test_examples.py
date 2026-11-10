@@ -202,7 +202,7 @@ def test_ci_workflow_yaml_validity():
     assert "ubuntu-latest" in content
     assert "macos-latest" in content
     assert "windows-latest" in content
-    for py_ver in ["3.9", "3.10", "3.11", "3.12", "3.13"]:
+    for py_ver in ["3.10", "3.11", "3.12", "3.13"]:
         assert py_ver in content, f"Missing Python version {py_ver} in CI matrix"
 
     assert "pytest" in content
