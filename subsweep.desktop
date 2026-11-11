@@ -2,12 +2,12 @@
 Version=1.0
 Type=Application
 Name=SubSweep Recon Studio
-GenericName=OSINT Reconnaissance & Lead Intelligence Workstation
+GenericName=OSINT Subdomain Recon & Lead Harvester
 Comment=Zero-Dependency OSINT Reconnaissance, Subdomain Enumerator, Port Prober & Business Lead Harvester
 Exec=/usr/local/bin/subsweep desktop
-Icon=/media/neo/f2fdda77-178b-4603-ae80-c7aa4cd97908/zoth-micro-repos/subsweep-lead-scanner/assets/icon.png
+Icon=subsweep
 Terminal=false
-Categories=Security;Network;Development;System;Utility;
+Categories=Security;Network;Development;Utility;
 StartupNotify=true
 Actions=CLI;Web;
 

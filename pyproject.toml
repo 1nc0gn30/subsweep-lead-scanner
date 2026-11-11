@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "SubSweep Recon Team", email = "recon@subsweep.dev"}
+    {name = "1nc0gn30", email = "dev@nullai.tech"}
 ]
 keywords = [
     "osint",
@@ -57,6 +57,11 @@ dev = [
 [project.scripts]
 subsweep = "subsweep_lead_scanner.cli:main"
 lead-scanner = "subsweep_lead_scanner.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/1nc0gn30/subsweep-lead-scanner"
+Repository = "https://github.com/1nc0gn30/subsweep-lead-scanner.git"
+Issues = "https://github.com/1nc0gn30/subsweep-lead-scanner/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

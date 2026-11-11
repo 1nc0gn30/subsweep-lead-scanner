@@ -13,7 +13,7 @@
     "subsweep-recon": "./bin/subsweep.js"
   },
   "scripts": {
-    "start": "python3 -m http.server 8090 --directory public",
+    "start": "python3 -m subsweep_lead_scanner.cli serve --port 8090",
     "serve:public": "python3 -m http.server 8090 --directory public",
     "electron": "electron .",
     "app": "electron .",
